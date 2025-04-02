@@ -220,3 +220,29 @@ python3 tools/test.py --config_file='configs/softmax_triplet_with_center.yml' MO
 python3 tools/test.py --config_file='configs/softmax_triplet_with_center.yml' MODEL.DEVICE_ID "('your device id')" DATASETS.NAMES "('dukemtmc')" TEST.NECK_FEAT "('after')" TEST.FEAT_NORM "('yes')" MODEL.PRETRAIN_CHOICE "('self')" TEST.RE_RANKING "('yes')" TEST.WEIGHT "('your path to trained checkpoints')"
 ```
 
+
+
+## NOTES
+
+### Works currently:
+
+1. Download Model
+
+```bash
+python
+>>> from torchvision import models
+>>> torch.hub.set_dir('/home/raufschlaeger/.torch/models')
+>>> model = models.resnet50(pretrained=True)
+```
+
+2. Change config softmax_triplet_with_center.yml
+
+PRETRAIN_PATH: '/home/raufschlaeger/.torch/models/checkpoints/resnet50-0676ba61.pth'
+
+3. Removed checkpointer in trainer.py
+
+4. 
+
+```bash
+(dolphin) raufschlaeger@rau-gpu-vm:~/reid-strong-baseline$ python3 tools/train.py --config_file='configs/softmax_triplet_with_center.yml' MODEL.DEVICE_ID "('0')" DATASETS.NAMES "('market1501')" DATASETS.ROOT_DIR "('./data')" OUTPUT_DIR "('./logs/market1501/Experiment-all-tricks-tri_center-256x128-bs16x4-warmup10-erase0_5-labelsmooth_on-laststride1-bnneck_on-triplet_centerloss0_0005')"
+```
