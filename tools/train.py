@@ -141,12 +141,12 @@ def main():
 
     # Set default arguments if none are provided
     if len(sys.argv) == 1:  # No arguments were provided
-        args.config_file = './configs/dinov2_small_softmax_triplet_with_center.yml'
+        args.config_file = './configs/dinov2_vits14_softmax_triplet_with_center.yml'
         args.opts = [
             'MODEL.DEVICE_ID', "('0')",  # Must be a string with quotes to match expected format
             'DATASETS.NAMES', "('market1501')",
             'DATASETS.ROOT_DIR', "('./data')",
-            'OUTPUT_DIR', "('./logs/market1501/dinov2_softmax_triplet_with_center')"
+            'OUTPUT_DIR', "('./logs/market1501/dinov2_vits14/softmax_triplet_with_center')"
         ]
         print("No arguments provided. Using default configuration:")
         print(f"  --config_file={args.config_file}")

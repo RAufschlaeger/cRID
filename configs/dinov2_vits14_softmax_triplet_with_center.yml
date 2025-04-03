@@ -1,7 +1,7 @@
 MODEL:
   PRETRAIN_CHOICE: 'dinov2'  # Changed from 'self' and 'imagenet'
   PRETRAIN_PATH: '/home/raufschlaeger/.cache/torch/hub/checkpoints/dinov2_vits14_pretrain.pth'
-  NAME: 'dinov2_vits14'  # Using dinov2_small variant explicitly set in baseline.py
+  NAME: 'dinov2_vits14'  # Using dinov2_vits14 variant explicitly set in baseline.py
   METRIC_LOSS_TYPE: 'triplet_center'
   IF_LABELSMOOTH: 'on'
   IF_WITH_CENTER: 'yes'
@@ -63,4 +63,4 @@ TEST:
   NECK_FEAT: 'after'
   FEAT_NORM: 'yes'
 
-OUTPUT_DIR: "./logs/market1501/dinov2_softmax_triplet_with_center"
+OUTPUT_DIR: "./logs/market1501/dinov2_vits14/softmax_triplet_with_center"
