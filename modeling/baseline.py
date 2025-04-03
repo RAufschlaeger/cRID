@@ -10,6 +10,7 @@ from torch import nn
 from .backbones.resnet import ResNet, BasicBlock, Bottleneck
 from .backbones.senet import SENet, SEResNetBottleneck, SEBottleneck, SEResNeXtBottleneck
 from .backbones.resnet_ibn_a import resnet50_ibn_a
+from .backbones.dinov2 import DinoVisionTransformer, MODEL_DIMS
 
 
 def weights_init_kaiming(m):
@@ -62,7 +63,6 @@ class Baseline(nn.Module):
             self.base = ResNet(last_stride=last_stride, 
                                block=Bottleneck,
                                layers=[3, 8, 36, 3])
-            
         elif model_name == 'se_resnet50':
             self.base = SENet(block=SEResNetBottleneck, 
                               layers=[3, 4, 6, 3], 
@@ -127,6 +127,26 @@ class Baseline(nn.Module):
                               last_stride=last_stride)
         elif model_name == 'resnet50_ibn_a':
             self.base = resnet50_ibn_a(last_stride)
+        elif model_name == 'dinov2':
+            # Use the dinov2_small variant explicitly - changed to vits14 to match the weights
+            dinov2_variant = 'dinov2_vits14'
+            # Set in_planes to match the dimension of dinov2_vits14 (384)
+            self.in_planes = 384
+            self.base = DinoVisionTransformer(
+                last_stride=last_stride,
+                model_variant=dinov2_variant,
+                pretrained=True
+            )
+        elif model_name.startswith('dinov2'):
+            # Support for explicitly named variants (dinov2_base, dinov2_large, etc.)
+            dinov2_variant = model_name  # e.g., 'dinov2_base'
+            # Get the corresponding dimension from the MODEL_DIMS dictionary in dinov2.py
+            self.in_planes = MODEL_DIMS.get(dinov2_variant, 384)  # Default to 384 if not found
+            self.base = DinoVisionTransformer(
+                last_stride=last_stride,
+                model_variant=dinov2_variant,
+                pretrained=True
+            )
 
         if pretrain_choice == 'imagenet':
             self.base.load_param(model_path)

@@ -51,6 +51,10 @@ def train(cfg):
             start_epoch = 0
             scheduler = WarmupMultiStepLR(optimizer, cfg.SOLVER.STEPS, cfg.SOLVER.GAMMA, cfg.SOLVER.WARMUP_FACTOR,
                                           cfg.SOLVER.WARMUP_ITERS, cfg.SOLVER.WARMUP_METHOD)
+        elif cfg.MODEL.PRETRAIN_CHOICE == 'dinov2':
+            start_epoch = 0
+            scheduler = WarmupMultiStepLR(optimizer, cfg.SOLVER.STEPS, cfg.SOLVER.GAMMA, cfg.SOLVER.WARMUP_FACTOR,
+                                            cfg.SOLVER.WARMUP_ITERS, cfg.SOLVER.WARMUP_METHOD)
         else:
             print('Only support pretrain_choice for imagenet and self, but got {}'.format(cfg.MODEL.PRETRAIN_CHOICE))
 
@@ -78,7 +82,12 @@ def train(cfg):
 
         # Add for using self trained model
         if cfg.MODEL.PRETRAIN_CHOICE == 'self':
-            start_epoch = eval(cfg.MODEL.PRETRAIN_PATH.split('/')[-1].split('.')[0].split('_')[-1])
+
+            # OLD: for resnet50 pretrained model
+            # start_epoch = eval(cfg.MODEL.PRETRAIN_PATH.split('/')[-1].split('.')[0].split('_')[-1])
+            # NEW: for dinov2 pretrained model
+            start_epoch = 0
+
             print('Start epoch:', start_epoch)
             path_to_optimizer = cfg.MODEL.PRETRAIN_PATH.replace('model', 'optimizer')
             print('Path to the checkpoint of optimizer:', path_to_optimizer)
@@ -93,6 +102,10 @@ def train(cfg):
             scheduler = WarmupMultiStepLR(optimizer, cfg.SOLVER.STEPS, cfg.SOLVER.GAMMA, cfg.SOLVER.WARMUP_FACTOR,
                                           cfg.SOLVER.WARMUP_ITERS, cfg.SOLVER.WARMUP_METHOD, start_epoch)
         elif cfg.MODEL.PRETRAIN_CHOICE == 'imagenet':
+            start_epoch = 0
+            scheduler = WarmupMultiStepLR(optimizer, cfg.SOLVER.STEPS, cfg.SOLVER.GAMMA, cfg.SOLVER.WARMUP_FACTOR,
+                                          cfg.SOLVER.WARMUP_ITERS, cfg.SOLVER.WARMUP_METHOD)
+        elif cfg.MODEL.PRETRAIN_CHOICE == 'dinov2':
             start_epoch = 0
             scheduler = WarmupMultiStepLR(optimizer, cfg.SOLVER.STEPS, cfg.SOLVER.GAMMA, cfg.SOLVER.WARMUP_FACTOR,
                                           cfg.SOLVER.WARMUP_ITERS, cfg.SOLVER.WARMUP_METHOD)
@@ -128,12 +141,12 @@ def main():
 
     # Set default arguments if none are provided
     if len(sys.argv) == 1:  # No arguments were provided
-        args.config_file = './configs/softmax_triplet_with_center.yml'
+        args.config_file = './configs/dinov2_small_softmax_triplet_with_center.yml'
         args.opts = [
             'MODEL.DEVICE_ID', "('0')",  # Must be a string with quotes to match expected format
             'DATASETS.NAMES', "('market1501')",
             'DATASETS.ROOT_DIR', "('./data')",
-            'OUTPUT_DIR', "('./logs/market1501/resnet_softmax_triplet_with_center')"
+            'OUTPUT_DIR', "('./logs/market1501/dinov2_softmax_triplet_with_center')"
         ]
         print("No arguments provided. Using default configuration:")
         print(f"  --config_file={args.config_file}")
