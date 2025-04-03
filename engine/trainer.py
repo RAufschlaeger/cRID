@@ -9,7 +9,7 @@ import logging
 import torch
 import torch.nn as nn
 from ignite.engine import Engine, Events
-from ignite.handlers import Timer
+from ignite.handlers import ModelCheckpoint, Timer
 from ignite.metrics import RunningAverage
 
 from utils.reid_metric import R1_mAP
@@ -153,6 +153,20 @@ def do_train(
     logger.info("Start training")
     trainer = create_supervised_trainer(model, optimizer, loss_fn, device=device)
     evaluator = create_supervised_evaluator(model, metrics={'r1_mAP': R1_mAP(num_query, max_rank=50, feat_norm=cfg.TEST.FEAT_NORM)}, device=device)
+    checkpointer = ModelCheckpoint(
+        dirname=output_dir, 
+        filename_prefix=cfg.MODEL.NAME, 
+        score_function=None,  # Explicitly disable score function
+        n_saved=10, 
+        require_empty=False
+    )
+
+    trainer.add_event_handler(
+        Events.EPOCH_COMPLETED(every=checkpoint_period),
+        checkpointer,
+        {'model': model}
+    )
+
     timer = Timer(average=True)
 
     timer.attach(trainer, start=Events.EPOCH_STARTED, resume=Events.ITERATION_STARTED,
@@ -219,6 +233,7 @@ def do_train_with_center(
         start_epoch
 ):
     log_period = cfg.SOLVER.LOG_PERIOD
+    checkpoint_period = cfg.SOLVER.CHECKPOINT_PERIOD
     eval_period = cfg.SOLVER.EVAL_PERIOD
     output_dir = cfg.OUTPUT_DIR
     device = cfg.MODEL.DEVICE
@@ -228,6 +243,35 @@ def do_train_with_center(
     logger.info("Start training")
     trainer = create_supervised_trainer_with_center(model, center_criterion, optimizer, optimizer_center, loss_fn, cfg.SOLVER.CENTER_LOSS_WEIGHT, device=device)
     evaluator = create_supervised_evaluator(model, metrics={'r1_mAP': R1_mAP(num_query, max_rank=50, feat_norm=cfg.TEST.FEAT_NORM)}, device=device)
+    checkpointer = ModelCheckpoint(
+        dirname=output_dir, 
+        filename_prefix=cfg.MODEL.NAME, 
+        score_function=None,  # Explicitly disable score function
+        n_saved=10, 
+        require_empty=False
+    )
+
+    trainer.add_event_handler(
+        Events.EPOCH_COMPLETED(every=checkpoint_period),
+        checkpointer,
+        {'model': model, 'optimizer': optimizer, 'center_param': center_criterion, 'optimizer_center': optimizer_center}
+    )
+
+    # Save checkpoint only during evaluation periods
+    trainer.add_event_handler(
+        Events.EPOCH_COMPLETED,
+        lambda engine: torch.save(
+            {
+                'model': model.state_dict(),
+                'optimizer': optimizer.state_dict(),
+                'center_param': center_criterion.state_dict(),
+                'optimizer_center': optimizer_center.state_dict(),
+                'epoch': engine.state.epoch,
+            },
+            f"{output_dir}/{cfg.MODEL.NAME}_epoch_{engine.state.epoch}.pth"
+        ) if engine.state.epoch % eval_period == 0 else None
+    )
+
     timer = Timer(average=True)
 
     timer.attach(trainer, start=Events.EPOCH_STARTED, resume=Events.ITERATION_STARTED,

@@ -244,5 +244,5 @@ PRETRAIN_PATH: '/home/raufschlaeger/.torch/models/checkpoints/resnet50-0676ba61.
 4. 
 
 ```bash
-(dolphin) raufschlaeger@rau-gpu-vm:~/reid-strong-baseline$ python3 tools/train.py --config_file='configs/softmax_triplet_with_center.yml' MODEL.DEVICE_ID "('0')" DATASETS.NAMES "('market1501')" DATASETS.ROOT_DIR "('./data')" OUTPUT_DIR "('./logs/market1501/Experiment-all-tricks-tri_center-256x128-bs16x4-warmup10-erase0_5-labelsmooth_on-laststride1-bnneck_on-triplet_centerloss0_0005')"
+(dolphin) raufschlaeger@rau-gpu-vm:~/reid-strong-baseline$ python3 tools/train.py --config_file='configs/softmax_triplet_with_center.yml' MODEL.DEVICE_ID "('0')" DATASETS.NAMES "('market1501')" DATASETS.ROOT_DIR "('./data')" OUTPUT_DIR "('./logs/market1501/resnet_softmax_triplet_with_center')"
 ```
