@@ -51,7 +51,7 @@ def train(cfg):
             start_epoch = 0
             scheduler = WarmupMultiStepLR(optimizer, cfg.SOLVER.STEPS, cfg.SOLVER.GAMMA, cfg.SOLVER.WARMUP_FACTOR,
                                           cfg.SOLVER.WARMUP_ITERS, cfg.SOLVER.WARMUP_METHOD)
-        elif cfg.MODEL.PRETRAIN_CHOICE == 'dinov2':
+        elif cfg.MODEL.PRETRAIN_CHOICE == 'dinov2_vits14':
             start_epoch = 0
             scheduler = WarmupMultiStepLR(optimizer, cfg.SOLVER.STEPS, cfg.SOLVER.GAMMA, cfg.SOLVER.WARMUP_FACTOR,
                                             cfg.SOLVER.WARMUP_ITERS, cfg.SOLVER.WARMUP_METHOD)
