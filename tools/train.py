@@ -126,10 +126,31 @@ def main():
 
     args = parser.parse_args()
 
+    # Set default arguments if none are provided
+    if len(sys.argv) == 1:  # No arguments were provided
+        args.config_file = './configs/softmax_triplet_with_center.yml'
+        args.opts = [
+            'MODEL.DEVICE_ID', "('0')",  # Must be a string with quotes to match expected format
+            'DATASETS.NAMES', "('market1501')",
+            'DATASETS.ROOT_DIR', "('./data')",
+            'OUTPUT_DIR', "('./logs/market1501/resnet_softmax_triplet_with_center')"
+        ]
+        print("No arguments provided. Using default configuration:")
+        print(f"  --config_file={args.config_file}")
+        for i in range(0, len(args.opts), 2):
+            print(f"  {args.opts[i]} {args.opts[i+1]}")
+
     num_gpus = int(os.environ["WORLD_SIZE"]) if "WORLD_SIZE" in os.environ else 1
 
+    # Check if config file exists before attempting to load it
     if args.config_file != "":
-        cfg.merge_from_file(args.config_file)
+        if not os.path.exists(args.config_file):
+            print(f"Warning: Config file '{args.config_file}' does not exist. Creating directories and continuing...")
+            # Create directory structure if it doesn't exist
+            os.makedirs(os.path.dirname(args.config_file), exist_ok=True)
+        else:
+            cfg.merge_from_file(args.config_file)
+    
     cfg.merge_from_list(args.opts)
     cfg.freeze()
 

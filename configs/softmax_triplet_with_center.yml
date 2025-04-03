@@ -5,9 +5,7 @@ MODEL:
   METRIC_LOSS_TYPE: 'triplet_center'
   IF_LABELSMOOTH: 'on'
   IF_WITH_CENTER: 'yes'
-
-
-
+  DEVICE_ID: ('0')
 
 INPUT:
   SIZE_TRAIN: [256, 128]
@@ -18,6 +16,7 @@ INPUT:
 
 DATASETS:
   NAMES: ('market1501')
+  ROOT_DIR: ('./data')
 
 DATALOADER:
   SAMPLER: 'softmax_triplet'
