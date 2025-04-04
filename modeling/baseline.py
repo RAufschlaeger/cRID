@@ -192,8 +192,57 @@ class Baseline(nn.Module):
                 return global_feat
 
     def load_param(self, trained_path):
-        param_dict = torch.load(trained_path)
-        for i in param_dict:
-            if 'classifier' in i:
-                continue
-            self.state_dict()[i].copy_(param_dict[i])
+        param_dict = torch.load(trained_path, map_location=torch.device('cpu'))
+        
+        # Add debug prints
+        print(f"Loaded checkpoint keys: {sorted(list(param_dict.keys())) if isinstance(param_dict, dict) else 'not a dict'}")
+        
+        if isinstance(param_dict, dict):
+            # If checkpoint has a 'model' key with model state
+            if 'model' in param_dict and isinstance(param_dict['model'], dict):
+                param_dict = param_dict['model']
+                print(f"Using 'model' key from checkpoint with {len(param_dict)} parameters")
+            
+            # Create counters to track loading progress
+            loaded_count = 0
+            total_count = 0
+            
+            state_dict = self.state_dict()
+            for i in state_dict:
+                total_count += 1
+                
+                # Try direct key match
+                if i in param_dict:
+                    state_dict[i].copy_(param_dict[i])
+                    loaded_count += 1
+                # Try removing module prefix (handles DataParallel checkpoints)
+                elif i.startswith('module.') and i[7:] in param_dict:
+                    state_dict[i].copy_(param_dict[i[7:]])
+                    loaded_count += 1
+                # Try adding module prefix
+                elif 'module.' + i in param_dict:
+                    state_dict[i].copy_(param_dict['module.' + i])
+                    loaded_count += 1
+                # Check for model prefix
+                elif 'model.' + i in param_dict:
+                    state_dict[i].copy_(param_dict['model.' + i])
+                    loaded_count += 1
+                # Try removing base prefix
+                elif i.startswith('base.') and i[5:] in param_dict:
+                    state_dict[i].copy_(param_dict[i[5:]])
+                    loaded_count += 1
+                # Try replacing base with backbone (common in some frameworks)
+                elif i.replace('base.', 'backbone.') in param_dict:
+                    state_dict[i].copy_(param_dict[i.replace('base.', 'backbone.')])
+                    loaded_count += 1
+                else:
+                    print(f'Parameter not found in checkpoint: {i}')
+            
+            print(f"Loaded {loaded_count}/{total_count} parameters from checkpoint")
+            if loaded_count < total_count * 0.8:  # Less than 80% loaded
+                print("WARNING: Many parameters couldn't be loaded from checkpoint!")
+                print("This may indicate a mismatch between model architecture and checkpoint")
+                # List first few state dict keys for debugging
+                print(f"Model expects parameters: {list(state_dict.keys())[:10]}")
+        else:
+            print("Checkpoint is not a dictionary, cannot load parameters")

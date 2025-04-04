@@ -241,8 +241,15 @@ PRETRAIN_PATH: '/home/raufschlaeger/.torch/models/checkpoints/resnet50-0676ba61.
 
 3. Removed checkpointer in trainer.py
 
-4. 
+### The following cmds need to be adapted, however running the scripts directly is preferred currently
+
+4. Train
 
 ```bash
-(dolphin) raufschlaeger@rau-gpu-vm:~/reid-strong-baseline$ python3 tools/train.py --config_file='configs/softmax_triplet_with_center.yml' MODEL.DEVICE_ID "('0')" DATASETS.NAMES "('market1501')" DATASETS.ROOT_DIR "('./data')" OUTPUT_DIR "('./logs/market1501/resnet_softmax_triplet_with_center')"
+ tools/train.py --config_file='configs/softmax_triplet_with_center.yml' MODEL.DEVICE_ID "('0')" DATASETS.NAMES "('market1501')" DATASETS.ROOT_DIR "('./data')" OUTPUT_DIR "('./logs/market1501/resnet_softmax_triplet_with_center')"
+```
+
+5. Test
+```bash
+python3 tools/test.py --config_file='configs/dinov2_vits14_softmax_triplet_with_center.yml' MODEL.DEVICE_ID "('0')" DATASETS.NAMES "('market1501')" TEST.NECK_FEAT "('after')" TEST.FEAT_NORM "('yes')" MODEL.PRETRAIN_CHOICE "('dinov2_vits14')" TEST.WEIGHT "./logs/market1501/dinov2_vits14/softmax_triplet_with_center/dinov2_vits14_checkpoint_22320.pt"
 ```
