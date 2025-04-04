@@ -11,7 +11,7 @@ MODEL:
 INPUT:
   SIZE_TRAIN: [252, 126]  # Changed from [256, 128] to be divisible by patch size 14
   SIZE_TEST: [252, 126]  # Changed from [256, 128] to be divisible by patch size 14
-  PROB: 0.5 # random horizontal flip
+  PROB: 0.5  # random horizontal flip
   RE_PROB: 0.5 # random erasing
   PADDING: 10
 
