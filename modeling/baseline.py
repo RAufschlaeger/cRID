@@ -127,16 +127,6 @@ class Baseline(nn.Module):
                               last_stride=last_stride)
         elif model_name == 'resnet50_ibn_a':
             self.base = resnet50_ibn_a(last_stride)
-        elif model_name == 'dinov2':
-            # Use the dinov2_small variant explicitly - changed to vits14 to match the weights
-            dinov2_variant = 'dinov2_vits14'
-            # Set in_planes to match the dimension of dinov2_vits14 (384)
-            self.in_planes = 384
-            self.base = DinoVisionTransformer(
-                last_stride=last_stride,
-                model_variant=dinov2_variant,
-                pretrained=True
-            )
         elif model_name.startswith('dinov2'):
             # Support for explicitly named variants (dinov2_base, dinov2_large, etc.)
             dinov2_variant = model_name  # e.g., 'dinov2_base'

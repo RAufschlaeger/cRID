@@ -146,7 +146,6 @@ def main():
             'MODEL.DEVICE_ID', "('0')",  # Must be a string with quotes to match expected format
             'DATASETS.NAMES', "('market1501')",
             'DATASETS.ROOT_DIR', "('./data')",
-            'OUTPUT_DIR', "('./logs/market1501/dinov2_vits14/softmax_triplet_with_center')"
         ]
         print("No arguments provided. Using default configuration:")
         print(f"  --config_file={args.config_file}")
