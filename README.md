@@ -226,6 +226,9 @@ python3 tools/test.py --config_file='configs/softmax_triplet_with_center.yml' MO
 
 ### Works currently:
 
+0. Download datasets:
+https://nextcloud.th-deg.de/s/rTipCAS5mbQ2ggP in ./data
+
 1. Download Model
 
 ```bash
@@ -241,7 +244,7 @@ PRETRAIN_PATH: '/home/raufschlaeger/.torch/models/checkpoints/resnet50-0676ba61.
 
 3. Removed checkpointer in trainer.py
 
-### The following cmds need to be adapted, however running the scripts directly is preferred currently
+### The following cmds need to be adapted, however running the scripts directly is preferred currently (/home/raufschlaeger/anaconda3/envs/dolphin/bin/python /home/raufschlaeger/reid-strong-baseline/tools/train.py)
 
 4. Train
 
