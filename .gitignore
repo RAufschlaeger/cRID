@@ -3,6 +3,7 @@ data/Market-1501-v15.09.15
 data/market1501
 data/dukemtmc-reid
 data/cuhk03-np
+data/graphs/
 logs/
 saved-models/
 train_imagenet.py
