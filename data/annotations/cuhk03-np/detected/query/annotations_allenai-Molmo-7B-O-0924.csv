@@ -4593,60 +4593,59 @@ filename,ID,camera ID,frame number,graph,fixed_graph
 }","{
   ""nodes"": [
     {
-      ""id"": ""person"",
+      ""id"": ""person1"",
       ""attributes"": [
-        ""hair"",
-        ""backpack"",
-        ""sweatshirt"",
-        ""sweatpants"",
-        ""shoes""
+        ""short"",
+        ""black hair"",
+        ""blue backpack"",
+        ""gray sweatshirt"",
+        ""gray sweatpants"",
+        ""red and white shoes""
       ]
     },
     {
       ""id"": ""woman1"",
       ""attributes"": [
-        ""hair"",
-        ""sweatshirt""
+        ""long"",
+        ""brown hair"",
+        ""gray sweatshirt""
       ]
     },
     {
       ""id"": ""boy"",
       ""attributes"": [
-        ""hair"",
-        ""sweatshirt""
+        ""short"",
+        ""black hair"",
+        ""gray sweatshirt""
       ]
     },
     {
       ""id"": ""man"",
       ""attributes"": [
-        ""hair"",
-        ""shirt""
+        ""black hair"",
+        ""black shirt""
       ]
     },
     {
       ""id"": ""woman2"",
       ""attributes"": [
-        ""shirt"",
-        ""pants""
+        ""yellow shirt"",
+        ""red pants""
       ]
     }
   ],
   ""edges"": [
     {
-      ""source"": ""person"",
+      ""source"": ""person1"",
       ""target"": ""woman1""
     },
     {
-      ""source"": ""person"",
+      ""source"": ""person1"",
       ""target"": ""boy""
     },
     {
-      ""source"": ""person"",
+      ""source"": ""person1"",
       ""target"": ""man""
-    },
-    {
-      ""source"": ""person"",
-      ""target"": ""woman2""
     }
   ]
 }"

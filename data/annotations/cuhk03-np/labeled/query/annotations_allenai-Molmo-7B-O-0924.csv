@@ -4358,80 +4358,62 @@ filename,ID,camera ID,frame number,graph,fixed_graph
 }","{
   ""nodes"": [
     {
-      ""id"": ""person1"",
+      ""id"": ""person"",
       ""attributes"": [
         ""short"",
-        ""black"",
-        ""hair"",
-        ""blue"",
-        ""backpack"",
-        ""gray"",
-        ""sweatshirt"",
-        ""sweatpants"",
-        ""red"",
-        ""white"",
-        ""shoes""
+        ""black hair"",
+        ""blue backpack"",
+        ""gray sweatshirt"",
+        ""gray sweatpants"",
+        ""red white shoes""
       ]
     },
     {
       ""id"": ""woman1"",
       ""attributes"": [
-        ""long"",
-        ""brown"",
-        ""hair"",
-        ""gray"",
-        ""sweatshirt""
+        ""long brown hair"",
+        ""gray sweatshirt""
       ]
     },
     {
-      ""id"": ""boy1"",
+      ""id"": ""boy"",
       ""attributes"": [
         ""short"",
-        ""black"",
-        ""hair"",
-        ""gray"",
-        ""sweatshirt""
+        ""black hair"",
+        ""gray sweatshirt""
       ]
     },
     {
-      ""id"": ""man1"",
+      ""id"": ""man"",
       ""attributes"": [
-        ""black"",
-        ""hair"",
-        ""black"",
-        ""shirt""
+        ""black hair"",
+        ""black shirt""
       ]
     },
     {
       ""id"": ""woman2"",
       ""attributes"": [
-        ""yellow"",
-        ""shirt"",
-        ""red"",
-        ""pants""
+        ""yellow shirt"",
+        ""red pants""
       ]
     }
   ],
   ""edges"": [
     {
-      ""source"": ""person1"",
-      ""target"": ""woman1"",
-      ""relation"": """"
+      ""source"": ""person"",
+      ""target"": ""woman1""
     },
     {
-      ""source"": ""person1"",
-      ""target"": ""boy1"",
-      ""relation"": """"
+      ""source"": ""person"",
+      ""target"": ""boy""
     },
     {
-      ""source"": ""person1"",
-      ""target"": ""man1"",
-      ""relation"": """"
+      ""source"": ""person"",
+      ""target"": ""man""
     },
     {
-      ""source"": ""person1"",
-      ""target"": ""woman2"",
-      ""relation"": """"
+      ""source"": ""person"",
+      ""target"": ""woman2""
     }
   ]
 }"

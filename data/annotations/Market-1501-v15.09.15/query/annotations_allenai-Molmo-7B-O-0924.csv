@@ -6660,7 +6660,7 @@ filename,ID,camera ID,sequence number,frame number,graph,fixed_graph
     {
       ""id"": ""person"",
       ""attributes"": [
-        ""blue"",
+        ""shirt"",
         ""shorts"",
         ""shoes"",
         ""hair"",
@@ -6680,13 +6680,20 @@ filename,ID,camera ID,sequence number,frame number,graph,fixed_graph
       ""attributes"": [
         ""under""
       ]
+    },
+    {
+      ""id"": ""cyclist"",
+      ""attributes"": [
+        ""front"",
+        ""black""
+      ]
     }
   ],
   ""edges"": [
     {
       ""source"": ""person"",
       ""target"": ""bike"",
-      ""relation"": ""behind""
+      ""relation"": ""in""
     },
     {
       ""source"": ""person"",
@@ -6694,9 +6701,9 @@ filename,ID,camera ID,sequence number,frame number,graph,fixed_graph
       ""relation"": ""on""
     },
     {
-      ""source"": ""bike"",
-      ""target"": ""cyclist"",
-      ""relation"": ""same""
+      ""source"": ""cyclist"",
+      ""target"": ""person"",
+      ""relation"": ""in""
     }
   ]
 }"
@@ -14434,10 +14441,10 @@ filename,ID,camera ID,sequence number,frame number,graph,fixed_graph
     {
       ""id"": ""person"",
       ""attributes"": [
-        ""red dress"",
-        ""short hair"",
-        ""white skin"",
-        ""holding phone"",
+        ""red"",
+        ""short"",
+        ""white"",
+        ""phone"",
         ""walking""
       ]
     },
@@ -14458,8 +14465,8 @@ filename,ID,camera ID,sequence number,frame number,graph,fixed_graph
     {
       ""id"": ""biker"",
       ""attributes"": [
-        ""white shirt"",
-        ""black pants"",
+        ""white"",
+        ""black"",
         ""riding""
       ]
     },
@@ -14475,12 +14482,17 @@ filename,ID,camera ID,sequence number,frame number,graph,fixed_graph
     {
       ""source"": ""person"",
       ""target"": ""road"",
-      ""relation"": ""in front of""
+      ""relation"": ""front""
     },
     {
       ""source"": ""person"",
       ""target"": ""bike"",
-      ""relation"": ""in front of""
+      ""relation"": ""front""
+    },
+    {
+      ""source"": ""biker"",
+      ""target"": ""bike"",
+      ""relation"": ""riding""
     },
     {
       ""source"": ""person"",
@@ -14488,9 +14500,9 @@ filename,ID,camera ID,sequence number,frame number,graph,fixed_graph
       ""relation"": ""behind""
     },
     {
-      ""source"": ""biker"",
-      ""target"": ""bike"",
-      ""relation"": ""riding""
+      ""source"": ""bike"",
+      ""target"": ""rack"",
+      ""relation"": ""on""
     }
   ]
 }"
@@ -22149,7 +22161,7 @@ filename,ID,camera ID,sequence number,frame number,graph,fixed_graph
     {
       ""source"": ""person"",
       ""target"": ""bicycle"",
-      ""relation"": ""in front""
+      ""relation"": ""in front of""
     }
   ]
 }"
@@ -40749,19 +40761,17 @@ filename,ID,camera ID,sequence number,frame number,graph,fixed_graph
       ""id"": ""person"",
       ""attributes"": [
         ""large"",
-        ""fat"",
         ""heavyset"",
         ""obese"",
         ""overweight"",
         ""bulky"",
-        ""thick"",
+        ""thickset"",
         ""plump"",
         ""rotund"",
         ""corpulent"",
         ""chubby"",
         ""portly"",
-        ""stout"",
-        ""hefty""
+        ""stout""
       ]
     }
   ],

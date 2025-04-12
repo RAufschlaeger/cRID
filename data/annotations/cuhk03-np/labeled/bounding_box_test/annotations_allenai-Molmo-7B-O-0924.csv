@@ -78782,65 +78782,55 @@ filename,ID,camera ID,frame number,graph,fixed_graph
     {
       ""id"": ""person"",
       ""attributes"": [
-        ""long"",
-        ""black hair"",
-        ""white"",
+        ""hair"",
         ""jacket"",
-        ""black"",
         ""skirt"",
-        ""white"",
         ""shoes"",
-        ""black and white socks""
+        ""socks""
       ]
     },
     {
       ""id"": ""jacket"",
       ""attributes"": [
-        ""back visible"",
-        ""black design"",
-        ""two figures"",
-        ""lines text""
+        ""back"",
+        ""design"",
+        ""figures"",
+        ""text""
       ]
     },
     {
       ""id"": ""skirt"",
-      ""attributes"": [
-        ""visible""
-      ]
+      ""attributes"": []
     },
     {
       ""id"": ""shoes"",
-      ""attributes"": [
-        ""visible""
-      ]
+      ""attributes"": []
     },
     {
       ""id"": ""socks"",
-      ""attributes"": [
-        ""visible""
-      ]
+      ""attributes"": []
     }
   ],
   ""edges"": [
     {
       ""source"": ""person"",
       ""target"": ""jacket"",
-      ""relation"": ""wearing""
+      ""relation"": ""wears""
     },
     {
-      ""source"": ""jacket"",
+      ""source"": ""person"",
       ""target"": ""skirt"",
-      ""relation"": ""below""
+      ""relation"": ""wears""
     },
     {
-      ""source"": ""jacket"",
+      ""source"": ""person"",
       ""target"": ""shoes"",
-      ""relation"": ""paired with""
+      ""relation"": ""wears""
     },
     {
-      ""source"": ""jacket"",
+      ""source"": ""person"",
       ""target"": ""socks"",
-      ""relation"": ""paired with""
+      ""relation"": ""wears""
     }
   ]
 }"
@@ -114196,19 +114186,22 @@ filename,ID,camera ID,frame number,graph,fixed_graph
     {
       ""id"": ""door"",
       ""attributes"": [
-        ""color""
+        ""color1"",
+        ""color2""
       ]
     },
     {
       ""id"": ""wall"",
       ""attributes"": [
-        ""color""
+        ""color1"",
+        ""color2""
       ]
     },
     {
       ""id"": ""floor"",
       ""attributes"": [
-        ""color""
+        ""color1"",
+        ""color2""
       ]
     }
   ],
@@ -114231,7 +114224,7 @@ filename,ID,camera ID,frame number,graph,fixed_graph
     {
       ""source"": ""floor"",
       ""target"": ""person"",
-      ""relation"": ""underneath""
+      ""relation"": ""beneath""
     }
   ]
 }"
@@ -153004,11 +152997,15 @@ filename,ID,camera ID,frame number,graph,fixed_graph
     },
     {
       ""id"": ""wall"",
-      ""attributes"": []
+      ""attributes"": [
+        ""left""
+      ]
     },
     {
       ""id"": ""window"",
-      ""attributes"": []
+      ""attributes"": [
+        ""right""
+      ]
     }
   ],
   ""edges"": [
@@ -153025,7 +153022,7 @@ filename,ID,camera ID,frame number,graph,fixed_graph
     {
       ""source"": ""person"",
       ""target"": ""bag"",
-      ""relation"": ""has""
+      ""relation"": ""carries""
     }
   ]
 }"
