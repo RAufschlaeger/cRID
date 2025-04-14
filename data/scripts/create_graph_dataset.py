@@ -25,23 +25,13 @@ def main(MODEL_NAME: str, DATASET: str, split: str):
     start = 0
     end = len(dataset)
 
-    annotations_path = f"./data/annotations/{DATASET}/{split}/annotations_{MODEL_NAME}.csv"
-    annotations_df = pd.read_csv(annotations_path)
-
-    annotations_df["fixed_graph"] = annotations_df["fixed_graph"].astype(str)  # Explicitly cast column to string
-
     for i in tqdm(range(start, end), desc="Processing dataset"):
         try:
-            sample, label, fixed_graph = dataset[i]
-            all_data.append((sample, label))
-            if fixed_graph is not None:
-                annotations_df.loc[i, "fixed_graph"] = str(fixed_graph)  # Explicitly cast to string
+            sample, pid, cid, img_path = dataset[i]
+            all_data.append((sample, pid, cid, img_path))
         except Exception as e:
             print(f"Error processing MODEL_NAME: {MODEL_NAME}, DATASET: {DATASET}, split: {split}, index: {i}")
             print(f"Exception: {str(e)}")
-
-    # Save updated annotations file
-    annotations_df.to_csv(annotations_path, index=False)
 
     output_path = f"./data/graphs/{DATASET}/{split}/graph_dataset_{MODEL_NAME}.pth"
     os.makedirs(os.path.dirname(output_path), exist_ok=True)  # Ensure parent directory exists

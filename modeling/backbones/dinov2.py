@@ -130,3 +130,11 @@ class DinoVisionTransformer(nn.Module):
         self.backbone.load_state_dict(filtered_state_dict, strict=False)
         print(f"Loaded DINOv2 parameters from {model_path}")
         print(f"Loaded {len(filtered_state_dict)} / {len(backbone_state_dict)} parameters")
+
+    def freeze_backbone(self):
+        """
+        Freeze the DINOv2 backbone to make it non-trainable.
+        """
+        for param in self.backbone.parameters():
+            param.requires_grad = False
+        print("DINOv2 backbone has been frozen.")

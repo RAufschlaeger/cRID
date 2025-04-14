@@ -47,12 +47,14 @@ def make_loss(cfg, num_classes):    # modified by gu
 def make_loss_with_center(cfg, num_classes):    # modified by gu
     if cfg.MODEL.NAME == 'resnet18' or cfg.MODEL.NAME == 'resnet34':
         feat_dim = 512
+    if cfg.MODEL.NAME == 'resnet50':
+        feat_dim = 2048
     elif cfg.MODEL.NAME == 'dinov2_vits14':
         feat_dim = 384
     elif cfg.MODEL.NAME == 'dinov2_vitb14':
         feat_dim = 768
-    else:
-        feat_dim = 2048
+    else: # for gat
+        feat_dim = cfg.GRAPH.OUT_FEATURES
 
     if cfg.MODEL.METRIC_LOSS_TYPE == 'center':
         center_criterion = CenterLoss(num_classes=num_classes, feat_dim=feat_dim, use_gpu=True)  # center loss
@@ -60,7 +62,6 @@ def make_loss_with_center(cfg, num_classes):    # modified by gu
     elif cfg.MODEL.METRIC_LOSS_TYPE == 'triplet_center':
         triplet = TripletLoss(cfg.SOLVER.MARGIN)  # triplet loss
         center_criterion = CenterLoss(num_classes=num_classes, feat_dim=feat_dim, use_gpu=True)  # center loss
-
     else:
         print('expected METRIC_LOSS_TYPE with center should be center, triplet_center'
               'but got {}'.format(cfg.MODEL.METRIC_LOSS_TYPE))
@@ -87,6 +88,9 @@ def make_loss_with_center(cfg, num_classes):    # modified by gu
                 return F.cross_entropy(score, target) + \
                         triplet(feat, target)[0] + \
                         cfg.SOLVER.CENTER_LOSS_WEIGHT * center_criterion(feat, target)
+            
+        elif cfg.MODEL.METRIC_LOSS_TYPE == 'triplet':
+            return triplet(feat, target)[0]
 
         else:
             print('expected METRIC_LOSS_TYPE with center should be center, triplet_center'

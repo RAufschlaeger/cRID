@@ -12,7 +12,19 @@ def train_collate_fn(batch):
     pids = torch.tensor(pids, dtype=torch.int64)
     return torch.stack(imgs, dim=0), pids
 
-
 def val_collate_fn(batch):
     imgs, pids, camids, _ = zip(*batch)
     return torch.stack(imgs, dim=0), pids, camids
+
+def train_collate_graph_fn(batch):
+    samples, pids, _, _, = zip(*batch)
+    samples = [data for data in samples]
+    pids = torch.tensor(pids, dtype=torch.int64)
+    return samples, pids
+
+def val_collate_graph_fn(batch):
+    samples, pids, camids, _, = zip(*batch)
+    samples = [data for data in samples] 
+    pids = torch.tensor(pids, dtype=torch.int64)
+    camids = torch.tensor(camids, dtype=torch.int64)
+    return samples, pids, camids

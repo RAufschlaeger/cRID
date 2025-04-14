@@ -11,6 +11,7 @@ import torch.nn as nn
 from ignite.engine import Engine, Events
 from ignite.handlers import ModelCheckpoint, Timer
 from ignite.metrics import RunningAverage
+from torch_geometric.data import Data, Batch  # Import Data and Batch classes
 
 from utils.reid_metric import R1_mAP
 
@@ -41,7 +42,10 @@ def create_supervised_trainer(model, optimizer, loss_fn,
         model.train()
         optimizer.zero_grad()
         img, target = batch
-        img = img.to(device) if torch.cuda.device_count() >= 1 else img
+        if isinstance(img[0], Data):
+            img = Batch.from_data_list(img).to(device)
+        else: # assuming it's a tensor
+            img = img.to(device) if torch.cuda.device_count() >= 1 else img        
         target = target.to(device) if torch.cuda.device_count() >= 1 else target
         score, feat = model(img)
         loss = loss_fn(score, feat, target)
@@ -54,7 +58,7 @@ def create_supervised_trainer(model, optimizer, loss_fn,
     return Engine(_update)
 
 
-def create_supervised_trainer_with_center(model, center_criterion, optimizer, optimizer_center, loss_fn, cetner_loss_weight,
+def create_supervised_trainer_with_center(model, center_criterion, optimizer, optimizer_center, loss_fn, center_loss_weight,
                               device=None):
     """
     Factory function for creating a trainer for supervised models
@@ -79,7 +83,10 @@ def create_supervised_trainer_with_center(model, center_criterion, optimizer, op
         optimizer.zero_grad()
         optimizer_center.zero_grad()
         img, target = batch
-        img = img.to(device) if torch.cuda.device_count() >= 1 else img
+        if isinstance(img[0], Data):
+            img = Batch.from_data_list(img).to(device)
+        else: # assuming it's a tensor
+            img = img.to(device) if torch.cuda.device_count() >= 1 else img
         target = target.to(device) if torch.cuda.device_count() >= 1 else target
         score, feat = model(img)
         loss = loss_fn(score, feat, target)
@@ -87,7 +94,7 @@ def create_supervised_trainer_with_center(model, center_criterion, optimizer, op
         loss.backward()
         optimizer.step()
         for param in center_criterion.parameters():
-            param.grad.data *= (1. / cetner_loss_weight)
+            param.grad.data *= (1. / center_loss_weight)
         optimizer_center.step()
 
         # compute acc
@@ -119,7 +126,11 @@ def create_supervised_evaluator(model, metrics,
         model.eval()
         with torch.no_grad():
             data, pids, camids = batch
-            data = data.to(device) if torch.cuda.device_count() >= 1 else data
+            if isinstance(data[0], Data):
+                data = Batch.from_data_list(data).to(device) if torch.cuda.device_count() >= 1 else data
+            else: # assuming it's a tensor
+                data = data.to(device) if torch.cuda.device_count() >= 1 else data
+            # data = data.to(device) if torch.cuda.device_count() >= 1 else data
             feat = model(data)
             return feat, pids, camids
 

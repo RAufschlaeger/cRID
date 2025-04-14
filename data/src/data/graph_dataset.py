@@ -26,6 +26,8 @@ class GraphDataset(torch_geometric.data.Dataset):
         """
         super().__init__()
         self.annotations_file = annotations_file
+        self.annotations_df = pd.read_csv(annotations_file)
+        self.annotations_df["fixed_graph"] = self.annotations_df["fixed_graph"].astype(str)  # Explicitly cast column to string
         self.graph_labels = pd.read_csv(annotations_file)  # Load the annotations CSV
         self.st_model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
 
@@ -67,9 +69,17 @@ class GraphDataset(torch_geometric.data.Dataset):
                 scene_graph = SceneGraph(graph, self.st_model)
                 sample = scene_graph.nx_to_tg_data()
 
-
         if isinstance(sample, Data):
-            label = torch.tensor(self.graph_labels.iloc[idx, 1], dtype=torch.long)
-            return sample, label, fixed_graph
+            pid = torch.tensor(self.graph_labels.iloc[idx, 1], dtype=torch.long)
+            camid = torch.tensor(self.graph_labels.iloc[idx, 2], dtype=torch.long)
+            img_path = self.graph_labels.iloc[idx, 0]
+
+            if fixed_graph is not None:
+                self.annotations_df.loc[idx, "fixed_graph"] = str(fixed_graph)  # Explicitly cast to string
+            
+                # Save updated annotations file
+                self.annotations_df.to_csv(self.annotations_file, index=False)
+
+            return sample, pid, camid, img_path
         else:
             raise ValueError("The output of nx_to_tg_data() is not a Data object.")

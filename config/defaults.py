@@ -159,3 +159,7 @@ _C.TEST.FEAT_NORM = 'yes'
 # ---------------------------------------------------------------------------- #
 # Path to checkpoint and saved log of trained model
 _C.OUTPUT_DIR = ""
+
+_C.GRAPH = CN()  # Add the missing key as a nested configuration node
+_C.GRAPH.IN_CHANNELS = 384
+_C.GRAPH.OUT_FEATURES = 128

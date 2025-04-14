@@ -26,6 +26,8 @@ class R1_mAP(Metric):
 
     def update(self, output):
         feat, pid, camid = output
+        if isinstance(feat, tuple):  # Handle tuple case
+            feat = feat[0]  # Extract the tensor part
         self.feats.append(feat)
         self.pids.extend(np.asarray(pid))
         self.camids.extend(np.asarray(camid))
@@ -67,6 +69,8 @@ class R1_mAP_reranking(Metric):
 
     def update(self, output):
         feat, pid, camid = output
+        if isinstance(feat, tuple):  # Handle tuple case
+            feat = feat[0]  # Extract the tensor part
         self.feats.append(feat)
         self.pids.extend(np.asarray(pid))
         self.camids.extend(np.asarray(camid))
