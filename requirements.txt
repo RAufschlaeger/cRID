@@ -10,3 +10,4 @@ tqdm
 matplotlib
 opencv-python
 scikit-learn
+imageio
