@@ -9,7 +9,7 @@ MODEL:
 
 GRAPH:
   IN_CHANNELS: 384
-  OUT_FEATURES: 128
+  OUT_FEATURES: 1
 
 INPUT:
   SIZE_TRAIN: [256, 128]
@@ -65,7 +65,7 @@ SOLVER:
 TEST:
   IMS_PER_BATCH: 128
   RE_RANKING: 'no'
-  WEIGHT: "path"
+  WEIGHT: "./logs/market1501/resnet50/softmax_triplet_with_center/resnet50_checkpoint_22320.pt"
   NECK_FEAT: 'after'
   FEAT_NORM: 'yes'
 

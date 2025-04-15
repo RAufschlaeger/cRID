@@ -16,8 +16,9 @@ INPUT:
   PADDING: 10
 
 DATASETS:
-  NAMES: ('market1501')
+  NAMES: ('cuhk03NpDetected')
   ROOT_DIR: ('./data')
+  TYPES: ('image',)
 
 DATALOADER:
   SAMPLER: 'softmax_triplet'
@@ -59,9 +60,9 @@ SOLVER:
 TEST:
   IMS_PER_BATCH: 128
   RE_RANKING: 'no'
-  WEIGHT: "./logs/market1501/dinov2_vitb14/softmax_triplet_with_center/dinov2_vitb14_checkpoint_22320.pt"
+  WEIGHT: "./logs/cuhk03-np/detected/dinov2_vitb14/softmax_triplet_with_center/dinov2_vitb14_checkpoint_22320.pt"
   NECK_FEAT: 'after'
   FEAT_NORM: 'yes'
   
 
-OUTPUT_DIR: "./logs/market1501/dinov2_vitb14/softmax_triplet_with_center"
+OUTPUT_DIR: "./logs/cuhk03-np/detected/dinov2_vitl14/softmax_triplet_with_center"
