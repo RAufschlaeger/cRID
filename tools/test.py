@@ -31,12 +31,12 @@ def main():
     args = parser.parse_args()
 
     if len(sys.argv) == 1:  # No arguments were provided
-        args.config_file = './configs/dinov2_vits14_softmax_triplet_with_center.yml'
+        args.config_file = './configs/market1501/dinov2_vits14_softmax_triplet_with_center.yml'
         args.opts = [
             'MODEL.DEVICE_ID', "('0')",  # Must be a string with quotes to match expected format
             'DATASETS.NAMES', "('market1501')",
             'DATASETS.ROOT_DIR', "('./data')",
-            'OUTPUT_DIR', "('./logs/market1501/dinov2_vits14/softmax_triplet_with_center')"
+            'OUTPUT_DIR', "('./logs/test/market1501/dinov2_vits14/softmax_triplet_with_center')"
         ]
         print("No arguments provided. Using default configuration:")
         print(f"  --config_file={args.config_file}")
@@ -64,7 +64,7 @@ def main():
 
     output_dir = cfg.OUTPUT_DIR
     if output_dir and not os.path.exists(output_dir):
-        mkdir(output_dir)
+        os.makedirs(output_dir, exist_ok=True)  # Ensure the directory is created
 
     logger = setup_logger("reid_baseline", output_dir, 0)
     logger.info("Using {} GPUS".format(num_gpus))
