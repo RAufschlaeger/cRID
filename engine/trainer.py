@@ -82,24 +82,53 @@ def create_supervised_trainer_with_center(model, center_criterion, optimizer, op
         model.train()
         optimizer.zero_grad()
         optimizer_center.zero_grad()
-        img, target = batch
-        if isinstance(img[0], Data):
-            img = Batch.from_data_list(img).to(device)
-        else: # assuming it's a tensor
-            img = img.to(device) if torch.cuda.device_count() >= 1 else img
-        target = target.to(device) if torch.cuda.device_count() >= 1 else target
-        score, feat = model(img)
-        loss = loss_fn(score, feat, target)
-        # print("Total loss is {}, center loss is {}".format(loss, center_criterion(feat, target)))
-        loss.backward()
-        optimizer.step()
-        for param in center_criterion.parameters():
-            param.grad.data *= (1. / center_loss_weight)
-        optimizer_center.step()
 
-        # compute acc
-        acc = (score.max(1)[1] == target).float().mean()
-        return loss.item(), acc.item()
+        if len(batch) == 3:
+            img, target, sample = batch
+            # TODO:             
+            # # torch.Size([64, 3, 256, 128])
+            # torch.Size([64])
+            img = img.to(device) if torch.cuda.device_count() >= 1 else img
+            sample = Batch.from_data_list(sample).to(device)
+
+            target = target.to(device) if torch.cuda.device_count() >= 1 else target
+            score, feat = model(img, sample)
+            loss = loss_fn(score, feat, target)
+            # print("Total loss is {}, center loss is {}".format(loss, center_criterion(feat, target)))
+            loss.backward()
+            optimizer.step()
+            for param in center_criterion.parameters():
+                param.grad.data *= (1. / center_loss_weight)
+            optimizer_center.step()
+
+            # compute acc
+            acc = (score.max(1)[1] == target).float().mean()
+            return loss.item(), acc.item()
+
+
+        else:
+            img, target = batch
+            # torch.Size([64, 3, 256, 128])
+            # torch.Size([64])
+
+            if isinstance(img[0], Data):
+                img = Batch.from_data_list(img).to(device)
+            else: # assuming it's a tensor
+                img = img.to(device) if torch.cuda.device_count() >= 1 else img
+
+            target = target.to(device) if torch.cuda.device_count() >= 1 else target
+            score, feat = model(img)
+            loss = loss_fn(score, feat, target)
+            # print("Total loss is {}, center loss is {}".format(loss, center_criterion(feat, target)))
+            loss.backward()
+            optimizer.step()
+            for param in center_criterion.parameters():
+                param.grad.data *= (1. / center_loss_weight)
+            optimizer_center.step()
+
+            # compute acc
+            acc = (score.max(1)[1] == target).float().mean()
+            return loss.item(), acc.item()
 
     return Engine(_update)
 
@@ -280,7 +309,7 @@ def do_train_with_center(
                 'epoch': engine.state.epoch,
             },
             f"{output_dir}/{cfg.MODEL.NAME}_epoch_{engine.state.epoch}.pth"
-        ) if engine.state.epoch % eval_period == 0 else None
+        ) if engine.state.epoch % 120 == 0 else None
     )
 
     timer = Timer(average=True)

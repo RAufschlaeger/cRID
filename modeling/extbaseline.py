@@ -11,6 +11,7 @@ from .backbones.resnet import ResNet, BasicBlock, Bottleneck
 from .backbones.senet import SENet, SEResNetBottleneck, SEBottleneck, SEResNeXtBottleneck
 from .backbones.resnet_ibn_a import resnet50_ibn_a
 from .backbones.dinov2 import DinoVisionTransformer, MODEL_DIMS
+from .backbones.gat import GraphTransformer
 
 
 def weights_init_kaiming(m):
@@ -36,11 +37,11 @@ def weights_init_classifier(m):
             nn.init.constant_(m.bias, 0.0)
 
 
-class Baseline(nn.Module):
+class ExtBaseline(nn.Module):
     in_planes = 2048
 
-    def __init__(self, num_classes, last_stride, model_path, neck, neck_feat, model_name, pretrain_choice):
-        super(Baseline, self).__init__()
+    def __init__(self, num_classes, last_stride, model_path, neck, neck_feat, model_name, pretrain_choice, in_channels, out_features):
+        super(ExtBaseline, self).__init__()
         if model_name == 'resnet18':
             self.in_planes = 512
             self.base = ResNet(last_stride=last_stride, 
@@ -129,7 +130,7 @@ class Baseline(nn.Module):
             self.base = resnet50_ibn_a(last_stride)
         elif model_name.startswith('dinov2'):
             # Support for explicitly named variants (dinov2_base, dinov2_large, etc.)
-            dinov2_variant = model_name  # e.g., 'dinov2_base'
+            dinov2_variant = model_name  # e.g., 'dinov2_vitb14'
             # Get the corresponding dimension from the MODEL_DIMS dictionary in dinov2.py
             self.in_planes = MODEL_DIMS.get(dinov2_variant, 384)  # Default to 384 if not found
             self.base = DinoVisionTransformer(
@@ -137,11 +138,20 @@ class Baseline(nn.Module):
                 model_variant=dinov2_variant,
                 pretrained=True
             )
-            # self.base.freeze_backbone()  # Freeze the backbone
+            self.base.freeze_backbone()  # Freeze the backbone
 
         if pretrain_choice == 'imagenet':
             self.base.load_param(model_path)
             print('Loading pretrained ImageNet model......')
+
+        # graph transformer
+        self.gat = GraphTransformer(
+            in_channels=in_channels,
+            out_channels=out_features,
+            heads=1,
+            dropout=0.0,
+            edge_dim=384
+        )
 
         self.gap = nn.AdaptiveAvgPool2d(1)
         # self.gap = nn.AdaptiveMaxPool2d(1)

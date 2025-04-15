@@ -55,6 +55,20 @@ class DinoVisionTransformer(nn.Module):
         # Set the last_stride parameter (for compatibility with the ReID framework)
         self.last_stride = last_stride
 
+        # # Adapt the feature extraction to produce spatial feature maps
+        # self.adapt_conv = nn.Conv2d(
+        #     in_channels=MODEL_DIMS.get(model_variant, 1024),
+        #     out_channels=MODEL_DIMS.get(model_variant, 1024),
+        #     kernel_size=1,
+        #     stride=1,
+        #     padding=0
+        # )
+        
+        # # Initialize weights for the adaptation layer
+        # nn.init.kaiming_normal_(self.adapt_conv.weight, mode='fan_out')
+        # nn.init.constant_(self.adapt_conv.bias, 0)
+
+
 
     def forward(self, x):
         """
@@ -97,8 +111,11 @@ class DinoVisionTransformer(nn.Module):
         h_patches = H // patch_size
         w_patches = W // patch_size
         
-        # Reshape from [B, patches, dim] to [B, dim, h, w]: torch.Size([64, 384, 18, 9])
+        # Reshape from [B, patches, dim] to [B, dim, h, w]
         features = patch_tokens.reshape(B, h_patches, w_patches, -1).permute(0, 3, 1, 2)
+        
+        # # Apply adaptation layer to match expected format
+        # features = self.adapt_conv(features)
         
         return features
 

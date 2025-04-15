@@ -2,11 +2,10 @@ import torch
 from torch_geometric.nn import GATv2Conv, global_max_pool
 import torch.nn.functional as F
 from torch.nn import LayerNorm
-import torch.nn as nn
 
 
 class GraphTransformer(torch.nn.Module):
-    def __init__(self, num_classes, in_channels, out_channels, heads=1, dropout=0.0, edge_dim=384):
+    def __init__(self, in_channels, out_channels, heads=1, dropout=0.0, edge_dim=384):
         super(GraphTransformer, self).__init__()
 
         # Layer 1: Propagate from C to B
@@ -23,9 +22,6 @@ class GraphTransformer(torch.nn.Module):
 
         # Layer normalization
         self.layer_norm = LayerNorm(out_channels)
-        self.num_classes = num_classes
-        self.classifier = nn.Linear(out_channels, self.num_classes)
-        
 
     def forward(self, data):
         # Input: Node features (x), edge index, and edge attributes
@@ -44,10 +40,6 @@ class GraphTransformer(torch.nn.Module):
 
         # Layer normalization
         x2 = self.layer_norm(x2)
-
-        if self.training:
-            cls_score = self.classifier(x2)
-            return cls_score, x2  # global feature for triplet loss
 
         return x2, attention_weights1, attention_weights2  # Return both graph-level representation and attention
         # weights

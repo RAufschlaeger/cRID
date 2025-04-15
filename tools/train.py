@@ -141,34 +141,68 @@ def main():
 
     # Set default arguments if none are provided
     if len(sys.argv) == 1:  # No arguments were provided
-        # args.config_file = './configs/resnet50_softmax_triplet_with_center.yml'
+        # args.config_file = './configs/dinov2_vitl14_softmax_triplet_with_center.yml'
         # args.opts = [
-        #     'MODEL.DEVICE_ID', "('0')",  # Must be a string with quotes to match expected format
-        #     'MODEL.NAME', "('resnet50')",  # Ensure NAME is passed as a string
+        #     'MODEL.DEVICE_ID', "('1')",  # Must be a string with quotes to match expected format
+        #     'MODEL.NAME', "('dinov2_vitl14')",  # Ensure NAME is passed as a string
         #     'DATASETS.NAMES', "('market1501')",
         #     'GRAPH.IN_CHANNELS', 384,
         #     'GRAPH.OUT_FEATURES', 128,
         #     'DATASETS.ROOT_DIR', "('./data')",
         #     'DATASETS.TYPES', "('image',)",  # Ensure TYPES is passed as a tuple
-        #     'OUTPUT_DIR', "./logs/market1501/resnet50/softmax_triplet_with_center"
+        #     'OUTPUT_DIR', "./logs/market1501/dinov2_vitl14/softmax_triplet_with_center",
+        #     'SOLVER.EVAL_PERIOD', 20
         # ]
-        args.config_file = './configs/gat_softmax_triplet_with_center.yml'
-        args.opts = [
-            'MODEL.DEVICE_ID', "('0')",  # Must be a string with quotes to match expected format
-            'DATASETS.NAMES', "('market1501')",
-            'MODEL.NAME', "('gat')",
-            'GRAPH.IN_CHANNELS', 384,
-            'GRAPH.OUT_FEATURES', 128,
-            'DATASETS.ROOT_DIR', "('./data')",
-            'DATASETS.TYPES', "('graph',)",  # Ensure TYPES is passed as a tuple
-            'OUTPUT_DIR', "./logs/market1501/gat/softmax_triplet_with_center",
-            'SOLVER.EVAL_PERIOD', 40,
-            'SOLVER.MARGIN', 0.3
-        ]
-        print("No arguments provided. Using default configuration:")
-        print(f"  --config_file={args.config_file}")
-        for i in range(0, len(args.opts), 2):
-            print(f"  {args.opts[i]} {args.opts[i+1]}")
+        # args.config_file = './configs/market1501/resnet50_softmax_triplet_with_center.yml'
+        # args.config_file = './configs/market1501/gat_softmax_triplet_with_center.yml'
+        # args.config_file = './configs/market1501/dinov2_vitl14_softmax_triplet_with_center.yml'
+        # args.config_file = './configs/market1501/dinov2_vits14_softmax_triplet_with_center.yml'
+        # args.config_file = './configs/market1501/dinov2_vitb14_softmax_triplet_with_center.yml'
+
+        # 15: args.config_file = './configs/cuhk03-np/detected/resnet50_softmax_triplet_with_center.yml'
+        # 16 args.config_file = './configs/cuhk03-np/detected/dinov2_vits14_softmax_triplet_with_center.yml'
+        # 17 args.config_file = './configs/cuhk03-np/detected/dinov2_vitb14_softmax_triplet_with_center.yml'
+        # 18 args.config_file = './configs/market1501/gat_softmax_triplet_with_center.yml'
+
+        args.config_file = './configs/cuhk03-np/detected/resnet50_softmax_triplet_with_center.yml'
+        args.config_file = './configs/cuhk03-np/detected/dinov2_vits14_softmax_triplet_with_center.yml'
+        args.config_file = './configs/cuhk03-np/detected/dinov2_vitb14_softmax_triplet_with_center.yml'
+        # 18 args.config_file = './configs/cuhk03-np/detected/gat_softmax_triplet_with_center.yml'
+
+        # 17 args.config_file = './configs/cuhk03-np/labeled/resnet50_softmax_triplet_with_center.yml'
+        # 16 args.config_file = './configs/cuhk03-np/labeled/dinov2_vits14_softmax_triplet_with_center.yml'
+        # 15 args.config_file = './configs/cuhk03-np/labeled/dinov2_vitb14_softmax_triplet_with_center.yml'
+        # 14 args.config_file = './configs/cuhk03-np/labeled/gat_softmax_triplet_with_center.yml'
+
+
+        # args.opts = [
+        #     'MODEL.DEVICE_ID', "('0')",  # Must be a string with quotes to match expected format
+        #     'MODEL.NAME', "('gat')",  # Ensure NAME is passed as a string
+        #     'DATASETS.NAMES', "('market1501')",
+        #     'GRAPH.IN_CHANNELS', 384,
+        #     'GRAPH.OUT_FEATURES', 128,
+        #     'DATASETS.ROOT_DIR', "('./data')",
+        #     'DATASETS.TYPES', "('graph',)",  # Ensure TYPES is passed as a tuple
+        #     'OUTPUT_DIR', "./logs/market1501/gat/softmax_triplet_with_center",
+        #     'SOLVER.EVAL_PERIOD', 20
+        # ]
+        # args.config_file = './configs/gat_dinov2_softmax_triplet_with_center.yml'
+        # args.opts = [
+        #     'MODEL.DEVICE_ID', "('0')",  # Must be a string with quotes to match expected format
+        #     'DATASETS.NAMES', "('market1501')",
+        #     'MODEL.NAME', "('dinov2_vitb14')",  # Ensure NAME is passed as a string
+        #     'GRAPH.IN_CHANNELS', 384,
+        #     'GRAPH.OUT_FEATURES', 128,
+        #     'DATASETS.ROOT_DIR', "('./data')",
+        #     'DATASETS.TYPES', "('graph', 'image')",  # Ensure TYPES is passed as a tuple
+        #     'OUTPUT_DIR', "./logs/market1501/combi/gat_dinov2_softmax_triplet_with_center",
+        #     'SOLVER.EVAL_PERIOD', 5,
+        #     'SOLVER.MARGIN', 0.3
+        # ]
+        # print("No arguments provided. Using default configuration:")
+        # print(f"  --config_file={args.config_file}")
+        # for i in range(0, len(args.opts), 2):
+        #     print(f"  {args.opts[i]} {args.opts[i+1]}")
 
     # Ensure DATASETS.TYPES is always a tuple
     if not hasattr(cfg.DATASETS, "TYPES"):

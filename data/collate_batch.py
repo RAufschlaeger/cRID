@@ -28,3 +28,11 @@ def val_collate_graph_fn(batch):
     pids = torch.tensor(pids, dtype=torch.int64)
     camids = torch.tensor(camids, dtype=torch.int64)
     return samples, pids, camids
+
+def train_combined_collate_fn(batch):
+    imgs, pids, _, _, samples = zip(*batch)
+    return imgs, pids, samples
+
+def val_combined_collate_fn(batch):
+    imgs, pids, camids, _, samples = zip(*batch)
+    return imgs, pids, camids, samples

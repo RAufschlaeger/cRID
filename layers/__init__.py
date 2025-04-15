@@ -53,6 +53,8 @@ def make_loss_with_center(cfg, num_classes):    # modified by gu
         feat_dim = 384
     elif cfg.MODEL.NAME == 'dinov2_vitb14':
         feat_dim = 768
+    elif cfg.MODEL.NAME == 'dinov2_vitl14':
+        feat_dim = 1024
     else: # for gat
         feat_dim = cfg.GRAPH.OUT_FEATURES
 
