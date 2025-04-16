@@ -65,4 +65,4 @@ TEST:
   FEAT_NORM: 'yes'
   
 
-OUTPUT_DIR: "./logs/cuhk03-np/labeled/dinov2_vitl14/softmax_triplet_with_center"
+OUTPUT_DIR: "./logs/cuhk03-np/labeled/dinov2_vitb14/softmax_triplet_with_center"
