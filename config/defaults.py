@@ -71,6 +71,8 @@ _C.DATASETS = CN()
 _C.DATASETS.NAMES = ('cuhk03NpDetected')
 # Root directory where datasets should be used (and downloaded if not found)
 _C.DATASETS.ROOT_DIR = ('./data')
+_C.DATASETS.TYPES = ('image',)
+
 
 # -----------------------------------------------------------------------------
 # DataLoader

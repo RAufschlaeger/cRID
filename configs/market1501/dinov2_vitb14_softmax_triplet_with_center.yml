@@ -59,7 +59,7 @@ SOLVER:
 TEST:
   IMS_PER_BATCH: 128
   RE_RANKING: 'no'
-  WEIGHT: "./logs/market/dinov2_vitb14/softmax_triplet_with_center/dinov2_vitb14_checkpoint_22320.pt"
+  WEIGHT: "./logs/market1501/dinov2_vitb14/softmax_triplet_with_center/dinov2_vitb14_checkpoint_22320.pt"
   NECK_FEAT: 'after'
   FEAT_NORM: 'yes'
   

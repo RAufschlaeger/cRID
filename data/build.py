@@ -25,6 +25,13 @@ def make_data_loader(cfg):
     num_classes = dataset.num_train_pids
     train_loader_image, train_loader_graph = None, None
 
+    if cfg.DATASETS.NAMES == 'cuhk03NpDetected':
+            dataset_name = "cuhk03-np/detected"
+    elif cfg.DATASETS.NAMES == 'cuhk03NpLabeled':
+            dataset_name = "cuhk03-np/labeled"
+    if cfg.DATASETS.NAMES == 'market1501': 
+            dataset_name = "Market-1501-v15.09.15"
+
     # # Sort image datasets
     # dataset.train = sorted(dataset.train, key=lambda x: x[0])
     # dataset.gallery = sorted(dataset.gallery, key=lambda x: x[0])
@@ -48,14 +55,15 @@ def make_data_loader(cfg):
         collate_fn=val_collate_fn)
 
     elif "image" not in dataset_types and "graph" in dataset_types:
-        
-        train_set_path = './data/graphs/Market-1501-v15.09.15/bounding_box_train/graph_dataset_allenai-Molmo-7B-O-0924.pth'
+        base_path = f'./data/graphs/{dataset_name}'
+
+        train_set_path = f'{base_path}/bounding_box_train/graph_dataset_allenai-Molmo-7B-O-0924.pth'
         train_set_graph = torch.load(train_set_path)
 
-        query_set_path = './data/graphs/Market-1501-v15.09.15/query/graph_dataset_allenai-Molmo-7B-O-0924.pth'
+        query_set_path = f'{base_path}/query/graph_dataset_allenai-Molmo-7B-O-0924.pth'
         query_set_graph = torch.load(query_set_path)
 
-        gallery_set_path = './data/graphs/Market-1501-v15.09.15/bounding_box_test/graph_dataset_allenai-Molmo-7B-O-0924.pth'
+        gallery_set_path = f'{base_path}/bounding_box_test/graph_dataset_allenai-Molmo-7B-O-0924.pth'
         gallery_set_graph = torch.load(gallery_set_path)
 
         # Relabel PIDs for train_set
@@ -97,14 +105,15 @@ def make_data_loader(cfg):
             )
             
     elif "image" in dataset_types and "graph" in dataset_types:
+        base_path = f'./data/graphs/{dataset_name}'
 
-        train_set_path = './data/graphs/Market-1501-v15.09.15/bounding_box_train/graph_dataset_allenai-Molmo-7B-O-0924.pth'
+        train_set_path = f'{base_path}/bounding_box_train/graph_dataset_allenai-Molmo-7B-O-0924.pth'
         train_set_graph = torch.load(train_set_path)
 
-        query_set_path = './data/graphs/Market-1501-v15.09.15/query/graph_dataset_allenai-Molmo-7B-O-0924.pth'
+        query_set_path = f'{base_path}/query/graph_dataset_allenai-Molmo-7B-O-0924.pth'
         query_set_graph = torch.load(query_set_path)
 
-        gallery_set_path = './data/graphs/Market-1501-v15.09.15/bounding_box_test/graph_dataset_allenai-Molmo-7B-O-0924.pth'
+        gallery_set_path = f'{base_path}/bounding_box_test/graph_dataset_allenai-Molmo-7B-O-0924.pth'
         gallery_set_graph = torch.load(gallery_set_path)
 
         # Replace id with id.item() in graph datasets
