@@ -154,14 +154,23 @@ def create_supervised_evaluator(model, metrics,
     def _inference(engine, batch):
         model.eval()
         with torch.no_grad():
-            data, pids, camids = batch
-            if isinstance(data[0], Data):
-                data = Batch.from_data_list(data).to(device) if torch.cuda.device_count() >= 1 else data
+            if len(batch) == 4:
+                img, pids, camids, sample = batch
+                sample = Batch.from_data_list(sample).to(device)
+            else:
+                img, pids, camids = batch
+
+            if isinstance(img[0], Data):
+                img = Batch.from_data_list(img).to(device) if torch.cuda.device_count() >= 1 else img
             else: # assuming it's a tensor
-                data = data.to(device) if torch.cuda.device_count() >= 1 else data
-            # data = data.to(device) if torch.cuda.device_count() >= 1 else data
-            feat = model(data)
-            return feat, pids, camids
+                img = img.to(device) if torch.cuda.device_count() >= 1 else img
+
+            if len(batch) == 4:
+                feat = model(img, sample)
+                return feat, pids, camids
+            else:   
+                feat = model(img)
+                return feat, pids, camids
 
     engine = Engine(_inference)
 

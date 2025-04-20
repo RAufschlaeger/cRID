@@ -105,7 +105,7 @@ def train(cfg):
             start_epoch = 0
             scheduler = WarmupMultiStepLR(optimizer, cfg.SOLVER.STEPS, cfg.SOLVER.GAMMA, cfg.SOLVER.WARMUP_FACTOR,
                                           cfg.SOLVER.WARMUP_ITERS, cfg.SOLVER.WARMUP_METHOD)
-        elif cfg.MODEL.PRETRAIN_CHOICE.startswith('dinov2'):
+        elif cfg.MODEL.PRETRAIN_CHOICE.startswith('dinov2') or cfg.MODEL.PRETRAIN_CHOICE.startswith('gat_'):
             start_epoch = 0
             scheduler = WarmupMultiStepLR(optimizer, cfg.SOLVER.STEPS, cfg.SOLVER.GAMMA, cfg.SOLVER.WARMUP_FACTOR,
                                           cfg.SOLVER.WARMUP_ITERS, cfg.SOLVER.WARMUP_METHOD)
@@ -141,109 +141,76 @@ def main():
 
     # Set default arguments if none are provided
     if len(sys.argv) == 1:  # No arguments were provided
-        # args.config_file = './configs/dinov2_vitl14_softmax_triplet_with_center.yml'
-        # args.opts = [
-        #     'MODEL.DEVICE_ID', "('1')",  # Must be a string with quotes to match expected format
-        #     'MODEL.NAME', "('dinov2_vitl14')",  # Ensure NAME is passed as a string
-        #     'DATASETS.NAMES', "('market1501')",
-        #     'GRAPH.IN_CHANNELS', 384,
-        #     'GRAPH.OUT_FEATURES', 128,
-        #     'DATASETS.ROOT_DIR', "('./data')",
-        #     'DATASETS.TYPES', "('image',)",  # Ensure TYPES is passed as a tuple
-        #     'OUTPUT_DIR', "./logs/market1501/dinov2_vitl14/softmax_triplet_with_center",
-        #     'SOLVER.EVAL_PERIOD', 20
-        # ]
+
+        # args.config_file = './configs/market1501/baseline.yml'
+
         # args.config_file = './configs/market1501/resnet50_softmax_triplet_with_center.yml'
         # args.config_file = './configs/market1501/gat_softmax_triplet_with_center.yml'
-        # args.config_file = './configs/market1501/dinov2_vitl14_softmax_triplet_with_center.yml'
         # args.config_file = './configs/market1501/dinov2_vits14_softmax_triplet_with_center.yml'
         # args.config_file = './configs/market1501/dinov2_vitb14_softmax_triplet_with_center.yml'
 
-        # 15: args.config_file = './configs/cuhk03-np/detected/resnet50_softmax_triplet_with_center.yml'
-        # 16 args.config_file = './configs/cuhk03-np/detected/dinov2_vits14_softmax_triplet_with_center.yml'
-        # 17 args.config_file = './configs/cuhk03-np/detected/dinov2_vitb14_softmax_triplet_with_center.yml'
-        # 18 args.config_file = './configs/market1501/gat_softmax_triplet_with_center.yml'
+        # 35d args.config_file = './configs/cuhk03-np/detected/resnet50_softmax_triplet_with_center.yml'
+        # 36d args.config_file = './configs/cuhk03-np/detected/dinov2_vits14_softmax_triplet_with_center.yml'
+        # 35 args.config_file = './configs/cuhk03-np/detected/dinov2_vitb14_softmax_triplet_with_center.yml'
+        # 34 args.config_file = './configs/cuhk03-np/detected/gat_softmax_triplet_with_center.yml'
 
-        args.config_file = './configs/cuhk03-np/detected/resnet50_softmax_triplet_with_center.yml'
-        args.config_file = './configs/cuhk03-np/detected/dinov2_vits14_softmax_triplet_with_center.yml'
-        args.config_file = './configs/cuhk03-np/detected/dinov2_vitb14_softmax_triplet_with_center.yml'
-        # 18 args.config_file = './configs/cuhk03-np/detected/gat_softmax_triplet_with_center.yml'
+        # test 1 epoch
+        # args.config_file = './configs/market1501/gat_dinov2_vitb14_softmax_triplet_with_center.yml'
+        # args.config_file = './configs/market1501/gat_resnet50_softmax_triplet_with_center.yml'
+        # args.config_file = './configs/market1501/gat_dinov2_vits14_softmax_triplet_with_center.yml'
 
-        # 17 args.config_file = './configs/cuhk03-np/labeled/resnet50_softmax_triplet_with_center.yml'
-        # 16 args.config_file = './configs/cuhk03-np/labeled/dinov2_vits14_softmax_triplet_with_center.yml'
-        # 15 args.config_file = './configs/cuhk03-np/labeled/dinov2_vitb14_softmax_triplet_with_center.yml'
-        # 14 args.config_file = './configs/cuhk03-np/labeled/gat_softmax_triplet_with_center.yml'
+        # args.config_file = './configs/cuhk03-np/detected/gat_dinov2_vitb14_softmax_triplet_with_center.yml'
+        # args.config_file = './configs/cuhk03-np/detected/gat_dinov2_vits14_softmax_triplet_with_center.yml'
+        # args.config_file = './configs/cuhk03-np/detected/gat_resnet50_softmax_triplet_with_center.yml'
 
+        for file in ['./configs/market1501/gat_dinov2_vitb14_softmax_triplet_with_center.yml', 
+                     './configs/market1501/gat_resnet50_softmax_triplet_with_center.yml',
+                     './configs/market1501/gat_dinov2_vits14_softmax_triplet_with_center.yml',
+                     './configs/cuhk03-np/detected/gat_dinov2_vitb14_softmax_triplet_with_center.yml'
+                     './configs/cuhk03-np/detected/gat_dinov2_vits14_softmax_triplet_with_center.yml',
+                     './configs/cuhk03-np/detected/gat_resnet50_softmax_triplet_with_center.yml']:
+            args.config_file = file
 
-        # args.opts = [
-        #     'MODEL.DEVICE_ID', "('0')",  # Must be a string with quotes to match expected format
-        #     'MODEL.NAME', "('gat')",  # Ensure NAME is passed as a string
-        #     'DATASETS.NAMES', "('market1501')",
-        #     'GRAPH.IN_CHANNELS', 384,
-        #     'GRAPH.OUT_FEATURES', 128,
-        #     'DATASETS.ROOT_DIR', "('./data')",
-        #     'DATASETS.TYPES', "('graph',)",  # Ensure TYPES is passed as a tuple
-        #     'OUTPUT_DIR', "./logs/market1501/gat/softmax_triplet_with_center",
-        #     'SOLVER.EVAL_PERIOD', 20
-        # ]
-        # args.config_file = './configs/gat_dinov2_softmax_triplet_with_center.yml'
-        # args.opts = [
-        #     'MODEL.DEVICE_ID', "('0')",  # Must be a string with quotes to match expected format
-        #     'DATASETS.NAMES', "('market1501')",
-        #     'MODEL.NAME', "('dinov2_vitb14')",  # Ensure NAME is passed as a string
-        #     'GRAPH.IN_CHANNELS', 384,
-        #     'GRAPH.OUT_FEATURES', 128,
-        #     'DATASETS.ROOT_DIR', "('./data')",
-        #     'DATASETS.TYPES', "('graph', 'image')",  # Ensure TYPES is passed as a tuple
-        #     'OUTPUT_DIR', "./logs/market1501/combi/gat_dinov2_softmax_triplet_with_center",
-        #     'SOLVER.EVAL_PERIOD', 5,
-        #     'SOLVER.MARGIN', 0.3
-        # ]
-        # print("No arguments provided. Using default configuration:")
-        # print(f"  --config_file={args.config_file}")
-        # for i in range(0, len(args.opts), 2):
-        #     print(f"  {args.opts[i]} {args.opts[i+1]}")
+            # Ensure DATASETS.TYPES is always a tuple
+            if not hasattr(cfg.DATASETS, "TYPES"):
+                cfg.DATASETS.TYPES = ("image",)  # Default to using only the image dataset
+            elif isinstance(cfg.DATASETS.TYPES, str):
+                cfg.DATASETS.TYPES = (cfg.DATASETS.TYPES,)  # Convert string to tuple if necessary
 
-    # Ensure DATASETS.TYPES is always a tuple
-    if not hasattr(cfg.DATASETS, "TYPES"):
-        cfg.DATASETS.TYPES = ("image",)  # Default to using only the image dataset
-    elif isinstance(cfg.DATASETS.TYPES, str):
-        cfg.DATASETS.TYPES = (cfg.DATASETS.TYPES,)  # Convert string to tuple if necessary
+            num_gpus = int(os.environ["WORLD_SIZE"]) if "WORLD_SIZE" in os.environ else 1
 
+            # Check if config file exists before attempting to load it
+            if args.config_file != "":
+                if not os.path.exists(args.config_file):
+                    print(f"Warning: Config file '{args.config_file}' does not exist. Creating directories and continuing...")
+                    # Create directory structure if it doesn't exist
+                    os.makedirs(os.path.dirname(args.config_file), exist_ok=True)
+                else:
+                    cfg.merge_from_file(args.config_file)
+            
+            cfg.merge_from_list(args.opts)
+            cfg.freeze()
 
-    num_gpus = int(os.environ["WORLD_SIZE"]) if "WORLD_SIZE" in os.environ else 1
+            output_dir = cfg.OUTPUT_DIR
+            if output_dir and not os.path.exists(output_dir):
+                os.makedirs(output_dir)
 
-    # Check if config file exists before attempting to load it
-    if args.config_file != "":
-        if not os.path.exists(args.config_file):
-            print(f"Warning: Config file '{args.config_file}' does not exist. Creating directories and continuing...")
-            # Create directory structure if it doesn't exist
-            os.makedirs(os.path.dirname(args.config_file), exist_ok=True)
-        else:
-            cfg.merge_from_file(args.config_file)
-    
-    cfg.merge_from_list(args.opts)
-    cfg.freeze()
+            logger = setup_logger("reid_baseline", output_dir, 0)
+            logger.info("Using {} GPUS".format(num_gpus))
+            logger.info(args)
 
-    output_dir = cfg.OUTPUT_DIR
-    if output_dir and not os.path.exists(output_dir):
-        os.makedirs(output_dir)
+            if args.config_file != "":
+                logger.info("Loaded configuration file {}".format(args.config_file))
+                with open(args.config_file, 'r') as cf:
+                    config_str = "\n" + cf.read()
+                    logger.info(config_str)
+            logger.info("Running with config:\n{}".format(cfg))
 
-    logger = setup_logger("reid_baseline", output_dir, 0)
-    logger.info("Using {} GPUS".format(num_gpus))
-    logger.info(args)
-
-    if args.config_file != "":
-        logger.info("Loaded configuration file {}".format(args.config_file))
-        with open(args.config_file, 'r') as cf:
-            config_str = "\n" + cf.read()
-            logger.info(config_str)
-    logger.info("Running with config:\n{}".format(cfg))
-
-    if cfg.MODEL.DEVICE == "cuda":
-        os.environ['CUDA_VISIBLE_DEVICES'] = cfg.MODEL.DEVICE_ID    # new add by gu
-    cudnn.benchmark = True
-    train(cfg)
+            if cfg.MODEL.DEVICE == "cuda":
+                os.environ['CUDA_VISIBLE_DEVICES'] = cfg.MODEL.DEVICE_ID    # new add by gu
+            
+            cudnn.benchmark = True
+            train(cfg)
 
 
 if __name__ == '__main__':
