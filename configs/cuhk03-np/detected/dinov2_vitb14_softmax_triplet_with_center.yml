@@ -11,8 +11,8 @@ MODEL:
 INPUT:
   SIZE_TRAIN: [252, 126]  # Changed from [256, 128] to be divisible by patch size 14
   SIZE_TEST: [252, 126]  # Changed from [256, 128] to be divisible by patch size 14
-  PROB: 0.5  # random horizontal flip
-  RE_PROB: 0.5 # random erasing
+  PROB: 0.0  # random horizontal flip
+  RE_PROB: 0.0 # random erasing
   PADDING: 10
 
 DATASETS:
@@ -59,8 +59,8 @@ SOLVER:
 
 TEST:
   IMS_PER_BATCH: 128
-  RE_RANKING: 'no'
-  WEIGHT: "./logs/cuhk03-np/detected/dinov2_vitb14/softmax_triplet_with_center/dinov2_vitb14_checkpoint_22320.pt"
+  RE_RANKING: 'yes'
+  WEIGHT: "./logs/cuhk03-np/detected/dinov2_vitb14/softmax_triplet_with_center/dinov2_vitb14_checkpoint_11280.pt"
   NECK_FEAT: 'after'
   FEAT_NORM: 'yes'
   

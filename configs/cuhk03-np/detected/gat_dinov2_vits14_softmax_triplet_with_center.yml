@@ -1,7 +1,7 @@
 MODEL:
-  PRETRAIN_CHOICE: 'dinov2_vits14'  # Changed from 'self' and 'imagenet'
+  PRETRAIN_CHOICE: 'gat_dinov2_vits14'  # Changed from 'self' and 'imagenet'
   PRETRAIN_PATH: '/home/raufschlaeger/.cache/torch/hub/checkpoints/dinov2_vits14_pretrain.pth'
-  NAME: 'dinov2_vits14'  # Using dinov2_vits14 variant explicitly set in baseline.py
+  NAME: 'gat_dinov2_vits14'
   METRIC_LOSS_TYPE: 'triplet_center'
   IF_LABELSMOOTH: 'on'
   IF_WITH_CENTER: 'yes'
@@ -14,11 +14,11 @@ INPUT:
   PROB: 0.0  # random horizontal flip
   RE_PROB: 0.0 # random erasing
   PADDING: 10
-
+  
 DATASETS:
   NAMES: ('cuhk03NpDetected')
   ROOT_DIR: ('./data')
-  TYPES: ('image',)
+  TYPES: ('image','graph')
 
 DATALOADER:
   SAMPLER: 'softmax_triplet'
@@ -53,16 +53,16 @@ SOLVER:
   WARMUP_ITERS: 10
   WARMUP_METHOD: 'linear'
 
-  CHECKPOINT_PERIOD: 40
+  CHECKPOINT_PERIOD: 120
   LOG_PERIOD: 20
   EVAL_PERIOD: 40
 
 TEST:
   IMS_PER_BATCH: 128
   RE_RANKING: 'yes'
-  WEIGHT: "./logs/cuhk03-np/detected/dinov2_vits14/softmax_triplet_with_center/dinov2_vits14_checkpoint_11280.pt"
+  WEIGHT: "./logs/cuhk03-np/detected/gat_dinov2_vits14/softmax_triplet_with_center/dinov2_vits14_checkpoint_22320.pt"
   NECK_FEAT: 'after'
   FEAT_NORM: 'yes'
   
 
-OUTPUT_DIR: "./logs/cuhk03-np/detected/dinov2_vits14/softmax_triplet_with_center"
+OUTPUT_DIR: "./logs/cuhk03-np/detected/gat_dinov2_vits14/softmax_triplet_with_center"

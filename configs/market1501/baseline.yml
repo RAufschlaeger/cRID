@@ -1,6 +1,6 @@
 MODEL:
   PRETRAIN_CHOICE: 'imagenet'
-  PRETRAIN_PATH: '/home/haoluo/.torch/models/resnet50-19c8e357.pth'
+  PRETRAIN_PATH: '/home/raufschlaeger/.torch/models/checkpoints/resnet50-0676ba61.pth'
   LAST_STRIDE: 2
   NECK: 'no'
   METRIC_LOSS_TYPE: 'triplet'
@@ -57,11 +57,11 @@ SOLVER:
 
 TEST:
   IMS_PER_BATCH: 128
-  RE_RANKING: 'no'
-  WEIGHT: "path"
-  NECK_FEAT: 'after'
+  RE_RANKING: 'yes'
+  WEIGHT: "./logs/market1501/resnet50/baseline/resnet50_modeld_22320.pt"
+  NECK_FEAT: 'no'
   FEAT_NORM: 'yes'
 
-OUTPUT_DIR: "/home/haoluo/log/gu/reid_baseline_review/Opensource_test/market1501/Experiment-all-tricks-256x128-bs16x4-warmup10-erase0_5-labelsmooth_on-laststride1-bnneck_on"
+OUTPUT_DIR: "./logs/market1501/resnet50/baseline"
 
 
