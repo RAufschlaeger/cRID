@@ -31,17 +31,96 @@ def main():
     args = parser.parse_args()
 
     if len(sys.argv) == 1:  # No arguments were provided
-        args.config_file = './configs/market1501/dinov2_vits14_softmax_triplet_with_center.yml'
+        # args.config_file = './configs/cuhk03-np/detected/resnet50_softmax_triplet_with_center.yml'
+        # args.opts = [
+        #     'MODEL.DEVICE_ID', "('0')",  # Must be a string with quotes to match expected format
+        #     'DATASETS.NAMES', "('cuhk03NpDetected')",
+        #     'DATASETS.ROOT_DIR', "('./data')",
+        #     'OUTPUT_DIR', "('./logs/test/cuhk03NpDetected/cuhk03NpDetected/resnet50/softmax_triplet_with_center')"
+        # ]
+
+        args.config_file = './configs/cuhk03-np/detected/gat_softmax_triplet_with_center.yml'
         args.opts = [
             'MODEL.DEVICE_ID', "('0')",  # Must be a string with quotes to match expected format
-            'DATASETS.NAMES', "('market1501')",
+            'DATASETS.NAMES', "('cuhk03NpDetected')",
             'DATASETS.ROOT_DIR', "('./data')",
-            'OUTPUT_DIR', "('./logs/test/market1501/dinov2_vits14/softmax_triplet_with_center')"
+            'OUTPUT_DIR', "('./logs/test/cuhk03NpDetected/cuhk03NpDetected/gat/softmax_triplet_with_center')"
         ]
-        print("No arguments provided. Using default configuration:")
-        print(f"  --config_file={args.config_file}")
-        for i in range(0, len(args.opts), 2):
-            print(f"  {args.opts[i]} {args.opts[i+1]}")
+        args.config_file = './configs/cuhk03-np/detected/dinov2_vitb14_softmax_triplet_with_center.yml'
+        args.opts = [
+            'MODEL.DEVICE_ID', "('0')",  # Must be a string with quotes to match expected format
+            'DATASETS.NAMES', "('cuhk03NpDetected')",
+            'DATASETS.ROOT_DIR', "('./data')",
+            'OUTPUT_DIR', "('./logs/test/cuhk03NpDetected/cuhk03NpDetected/dinov2_vitb14/softmax_triplet_with_center')"
+        ]
+        
+        # args.config_file = './configs/market1501/gat_dinov2_vits14_softmax_triplet_with_center.yml'
+        # args.opts = [
+        #     'MODEL.DEVICE_ID', "('0')",  # Must be a string with quotes to match expected format
+        #     'DATASETS.NAMES', "('cuhk03NpDetected')",
+        #     'DATASETS.ROOT_DIR', "('./data')",
+        #     'OUTPUT_DIR', "('./logs/test/market1501/cuhk03NpDetected/gat_dinov2_vits14/softmax_triplet_with_center')"
+        # ]
+        # args.config_file = './configs/market1501/gat_resnet50_softmax_triplet_with_center.yml'
+        # args.opts = [
+        #     'MODEL.DEVICE_ID', "('0')",  # Must be a string with quotes to match expected format
+        #     'DATASETS.NAMES', "('cuhk03NpDetected')",
+        #     'DATASETS.ROOT_DIR', "('./data')",
+        #     'OUTPUT_DIR', "('./logs/test/market1501/cuhk03NpDetected/gat_resnet50/softmax_triplet_with_center')"
+        # ]
+        # args.config_file = './configs/market1501/gat_dinov2_vitb14_softmax_triplet_with_center.yml'
+        # args.opts = [
+        #     'MODEL.DEVICE_ID', "('0')",  # Must be a string with quotes to match expected format
+        #     'DATASETS.NAMES', "('cuhk03NpDetected')",
+        #     'DATASETS.ROOT_DIR', "('./data')",
+        #     'OUTPUT_DIR', "('./logs/test/market1501/cuhk03NpDetected/gat_dinov2_vitb14/softmax_triplet_with_center')"
+        # ]
+
+        # args.opts = [
+        #     'MODEL.DEVICE_ID', "('0')",  # Must be a string with quotes to match expected format
+        #     'DATASETS.NAMES', "('cuhk03NpDetected')",
+        #     'DATASETS.ROOT_DIR', "('./data')",
+        #     'OUTPUT_DIR', "('./logs/test/market1501/cuhk03NpDetected/gat/softmax_triplet_with_center')"
+        # ]
+        # args.config_file = './configs/market1501/resnet50_softmax_triplet_with_center.yml'
+        # args.opts = [
+        #     'MODEL.DEVICE_ID', "('0')",  # Must be a string with quotes to match expected format
+        #     'DATASETS.NAMES', "('cuhk03NpDetected')",
+        #     'DATASETS.ROOT_DIR', "('./data')",
+        #     'OUTPUT_DIR', "('./logs/test/market1501/cuhk03NpDetected/resnet50/softmax_triplet_with_center')"
+        # ]
+        # args.config_file = './configs/market1501/dinov2_vitb14_softmax_triplet_with_center.yml'
+        # args.opts = [
+        #     'MODEL.DEVICE_ID', "('0')",  # Must be a string with quotes to match expected format
+        #     'DATASETS.NAMES', "('cuhk03NpDetected')",
+        #     'DATASETS.ROOT_DIR', "('./data')",
+        #     'OUTPUT_DIR', "('./logs/test/market1501/cuhk03NpDetected/dinov2_vitb14/softmax_triplet_with_center')"
+        # ]
+        # args.config_file = './configs/market1501/gat_dinov2_vitb14_softmax_triplet_with_center.yml'
+        # args.opts = [
+        #     'MODEL.DEVICE_ID', "('0')",  # Must be a string with quotes to match expected format
+        #     'DATASETS.NAMES', "('cuhk03NpDetected')",
+        #     'DATASETS.ROOT_DIR', "('./data')",
+        #     'OUTPUT_DIR', "('./logs/test/market1501/cuhk03NpDetected/gat_dinov2_vitb14/softmax_triplet_with_center')"
+        # ]
+        # args.config_file = './configs/market1501/gat_softmax_triplet_with_center.yml'
+        # args.opts = [
+        #     'MODEL.DEVICE_ID', "('0')",  # Must be a string with quotes to match expected format
+        #     'DATASETS.NAMES', "('cuhk03NpDetected')",
+        #     'DATASETS.ROOT_DIR', "('./data')",
+        #     'OUTPUT_DIR', "('./logs/test/market1501/cuhk03NpDetected/gat/softmax_triplet_with_center')"
+        # ]
+        # args.config_file = './configs/market1501/baseline.yml'
+        # args.opts = [
+        #     'MODEL.DEVICE_ID', "('0')",  # Must be a string with quotes to match expected format
+        #     'DATASETS.NAMES', "('cuhk03NpDetected')",
+        #     'DATASETS.ROOT_DIR', "('./data')",
+        #     'OUTPUT_DIR', "('./logs/test/market1501/cuhk03NpDetected/resnet50/baseline')"
+        # ]
+        # print("No arguments provided. Using default configuration:")
+        # print(f"  --config_file={args.config_file}")
+        # for i in range(0, len(args.opts), 2):
+        #     print(f"  {args.opts[i]} {args.opts[i+1]}")
 
     num_gpus = int(os.environ["WORLD_SIZE"]) if "WORLD_SIZE" in os.environ else 1
 
@@ -86,34 +165,32 @@ def main():
     logger.info(f"Loading model checkpoint from {cfg.TEST.WEIGHT}")
     print(f"Model checkpoint path: {cfg.TEST.WEIGHT}")
     
-    # Both .pth and .pt extensions are supported by PyTorch's loading mechanism
     if not os.path.exists(cfg.TEST.WEIGHT):
         logger.error(f"Checkpoint file not found: {cfg.TEST.WEIGHT}")
         print(f"ERROR: Checkpoint file not found: {cfg.TEST.WEIGHT}")
         sys.exit(1)
-        
-    # Load checkpoint and adapt format if needed
-    try:
-        checkpoint = torch.load(cfg.TEST.WEIGHT)
-        logger.info(f"Checkpoint keys: {checkpoint.keys() if isinstance(checkpoint, dict) else 'not a dict'}")
-        
-        # If the checkpoint doesn't have 'model' key but has state_dict directly
-        if isinstance(checkpoint, dict) and 'model' not in checkpoint and next(iter(checkpoint.keys()), '').startswith('base'):
-            logger.info("Converting checkpoint format - wrapping state_dict with 'model' key")
-            adapted_checkpoint = {'model': checkpoint}
-            # Create a temporary file with the adapted checkpoint
-            temp_path = cfg.TEST.WEIGHT + '.adapted'
-            torch.save(adapted_checkpoint, temp_path)
-            model.load_param(temp_path)
-            # Clean up temporary file
-            os.remove(temp_path)
-        else:
-            # Try loading original checkpoint
-            model.load_param(cfg.TEST.WEIGHT)
+
+    try: 
+        model.load_param(cfg.TEST.WEIGHT)
     except Exception as e:
-        logger.error(f"Error loading checkpoint: {str(e)}")
-        print(f"ERROR: Failed to load checkpoint: {str(e)}")
-        sys.exit(1)
+        
+        # Load checkpoint and adapt format if needed
+        try:
+            checkpoint = torch.load(cfg.TEST.WEIGHT)
+            logger.info(f"Checkpoint keys: {checkpoint.keys() if isinstance(checkpoint, dict) else 'not a dict'}")
+            
+            # Load everything except the classification layer
+            if isinstance(checkpoint, dict) and 'model' in checkpoint:
+                state_dict = checkpoint['model']
+                filtered_state_dict = {k: v for k, v in state_dict.items() if not k.startswith('classifier')}
+                model.load_state_dict(filtered_state_dict, strict=False)
+            else:
+                logger.error("Unexpected checkpoint format. Unable to filter classification layer.")
+                sys.exit(1)
+        except Exception as e:
+            logger.error(f"Error loading checkpoint: {str(e)}")
+            print(f"ERROR: Failed to load checkpoint: {str(e)}")
+            sys.exit(1)
 
     inference(cfg, model, val_loader, num_query)
 

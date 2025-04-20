@@ -10,6 +10,7 @@ import torch.nn as nn
 from ignite.engine import Engine
 
 from utils.reid_metric import R1_mAP, R1_mAP_reranking
+from torch_geometric.data import Batch  # Import Batch from torch_geometric
 
 
 def create_supervised_evaluator(model, metrics,
@@ -33,10 +34,26 @@ def create_supervised_evaluator(model, metrics,
     def _inference(engine, batch):
         model.eval()
         with torch.no_grad():
-            data, pids, camids = batch
-            data = data.to(device) if torch.cuda.device_count() >= 1 else data
-            feat = model(data)
-            return feat, pids, camids
+
+            if len(batch) == 3:
+                data, pids, camids = batch
+                if isinstance(data, list):
+                    data = Batch.from_data_list(data).to(device)
+                else: # assuming it's a tensor
+                    data = data.to(device) if torch.cuda.device_count() >= 1 else data
+                feat = model(data)
+                return feat, pids, camids
+            elif len(batch) == 4:
+                data, pids, camids, sample = batch   
+                sample = Batch.from_data_list(sample).to(device)
+                if isinstance(data, list):
+                    data = Batch.from_data_list(data).to(device)
+                else: # assuming it's a tensor
+                    data = data.to(device) if torch.cuda.device_count() >= 1 else data
+                feat = model(data, sample)
+                return feat, pids, camids
+            else:
+                raise ValueError("Batch size must be 3 or 4, but got {}.".format(len(batch)))
 
     engine = Engine(_inference)
 
