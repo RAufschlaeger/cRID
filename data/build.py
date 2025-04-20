@@ -131,9 +131,9 @@ def make_data_loader(cfg):
         dataset.gallery = sorted(dataset.gallery, key=lambda x: x[0])
         dataset.query = sorted(dataset.query, key=lambda x: x[0])
 
-        train_set_image = ImageDataset(dataset.train, None)
-        gallery_set_image = ImageDataset(dataset.gallery, None)
-        query_set_image = ImageDataset(dataset.query, None)
+        train_set_image = ImageDataset(dataset.train, train_transforms)
+        gallery_set_image = ImageDataset(dataset.gallery, val_transforms)
+        query_set_image = ImageDataset(dataset.query, val_transforms)
 
         # Ensure both datasets are aligned
         assert len(train_set_image) == len(train_set_graph), "Image and graph datasets must have the same length."
