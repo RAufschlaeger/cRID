@@ -181,7 +181,7 @@ class Baseline(nn.Module):
             else:
                 # print("Test with feature before BN")
                 return global_feat
-
+            
     def load_param(self, trained_path):
         param_dict = torch.load(trained_path, map_location=torch.device('cpu'))
         
@@ -203,29 +203,28 @@ class Baseline(nn.Module):
                 total_count += 1
                 
                 # Try direct key match
-                if i in param_dict:
+                if i in param_dict and not i.startswith('classifier'):
                     state_dict[i].copy_(param_dict[i])
                     loaded_count += 1
-                # Try removing module prefix (handles DataParallel checkpoints)
-                elif i.startswith('module.') and i[7:] in param_dict:
-                    state_dict[i].copy_(param_dict[i[7:]])
-                    loaded_count += 1
-                # Try adding module prefix
-                elif 'module.' + i in param_dict:
-                    state_dict[i].copy_(param_dict['module.' + i])
-                    loaded_count += 1
-                # Check for model prefix
-                elif 'model.' + i in param_dict:
-                    state_dict[i].copy_(param_dict['model.' + i])
-                    loaded_count += 1
-                # Try removing base prefix
-                elif i.startswith('base.') and i[5:] in param_dict:
-                    state_dict[i].copy_(param_dict[i[5:]])
-                    loaded_count += 1
-                # Try replacing base with backbone (common in some frameworks)
-                elif i.replace('base.', 'backbone.') in param_dict:
-                    state_dict[i].copy_(param_dict[i.replace('base.', 'backbone.')])
-                    loaded_count += 1
+                elif i.startswith('classifier'):
+                    print(f'Skipping classifier parameter: {i} (not found in checkpoint)')
+
+                # # Try removing module prefix (handles DataParallel checkpoints)
+                # elif i.startswith('module.') and i[7:] in param_dict:
+                #     state_dict[i].copy_(param_dict[i[7:]])
+                #     loaded_count += 1
+                # # Try adding module prefix
+                # elif 'module.' + i in param_dict:
+                #     state_dict[i].copy_(param_dict['module.' + i])
+                #     loaded_count += 1
+                # # Check for model prefix
+                # elif 'model.' + i in param_dict:
+                #     state_dict[i].copy_(param_dict['model.' + i])
+                #     loaded_count += 1
+                # # Try removing base prefix
+                # elif i.startswith('base.') and i[5:] in param_dict:
+                #     state_dict[i].copy_(param_dict[i[5:]])
+                #     loaded_count += 1
                 else:
                     print(f'Parameter not found in checkpoint: {i}')
             

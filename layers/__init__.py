@@ -55,7 +55,7 @@ def make_loss_with_center(cfg, num_classes):    # modified by gu
         feat_dim = 768
     elif cfg.MODEL.NAME == 'dinov2_vitl14':
         feat_dim = 1024
-    else: # for gat
+    else: # for anything involving gat
         feat_dim = cfg.GRAPH.OUT_FEATURES
 
     if cfg.MODEL.METRIC_LOSS_TYPE == 'center':

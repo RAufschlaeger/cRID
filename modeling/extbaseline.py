@@ -42,95 +42,12 @@ class ExtBaseline(nn.Module):
 
     def __init__(self, num_classes, last_stride, model_path, neck, neck_feat, model_name, pretrain_choice, in_channels, out_features):
         super(ExtBaseline, self).__init__()
-        if model_name == 'resnet18':
-            self.in_planes = 512
-            self.base = ResNet(last_stride=last_stride, 
-                               block=BasicBlock, 
-                               layers=[2, 2, 2, 2])
-        elif model_name == 'resnet34':
-            self.in_planes = 512
-            self.base = ResNet(last_stride=last_stride,
-                               block=BasicBlock,
-                               layers=[3, 4, 6, 3])
-        elif model_name == 'resnet50':
+        if model_name == 'gat_resnet50':
             self.base = ResNet(last_stride=last_stride,
                                block=Bottleneck,
                                layers=[3, 4, 6, 3])
-        elif model_name == 'resnet101':
-            self.base = ResNet(last_stride=last_stride,
-                               block=Bottleneck, 
-                               layers=[3, 4, 23, 3])
-        elif model_name == 'resnet152':
-            self.base = ResNet(last_stride=last_stride, 
-                               block=Bottleneck,
-                               layers=[3, 8, 36, 3])
-        elif model_name == 'se_resnet50':
-            self.base = SENet(block=SEResNetBottleneck, 
-                              layers=[3, 4, 6, 3], 
-                              groups=1, 
-                              reduction=16,
-                              dropout_p=None, 
-                              inplanes=64, 
-                              input_3x3=False,
-                              downsample_kernel_size=1, 
-                              downsample_padding=0,
-                              last_stride=last_stride) 
-        elif model_name == 'se_resnet101':
-            self.base = SENet(block=SEResNetBottleneck, 
-                              layers=[3, 4, 23, 3], 
-                              groups=1, 
-                              reduction=16,
-                              dropout_p=None, 
-                              inplanes=64, 
-                              input_3x3=False,
-                              downsample_kernel_size=1, 
-                              downsample_padding=0,
-                              last_stride=last_stride)
-        elif model_name == 'se_resnet152':
-            self.base = SENet(block=SEResNetBottleneck, 
-                              layers=[3, 8, 36, 3],
-                              groups=1, 
-                              reduction=16,
-                              dropout_p=None, 
-                              inplanes=64, 
-                              input_3x3=False,
-                              downsample_kernel_size=1, 
-                              downsample_padding=0,
-                              last_stride=last_stride)  
-        elif model_name == 'se_resnext50':
-            self.base = SENet(block=SEResNeXtBottleneck,
-                              layers=[3, 4, 6, 3], 
-                              groups=32, 
-                              reduction=16,
-                              dropout_p=None, 
-                              inplanes=64, 
-                              input_3x3=False,
-                              downsample_kernel_size=1, 
-                              downsample_padding=0,
-                              last_stride=last_stride) 
-        elif model_name == 'se_resnext101':
-            self.base = SENet(block=SEResNeXtBottleneck,
-                              layers=[3, 4, 23, 3], 
-                              groups=32, 
-                              reduction=16,
-                              dropout_p=None, 
-                              inplanes=64, 
-                              input_3x3=False,
-                              downsample_kernel_size=1, 
-                              downsample_padding=0,
-                              last_stride=last_stride)
-        elif model_name == 'senet154':
-            self.base = SENet(block=SEBottleneck, 
-                              layers=[3, 8, 36, 3],
-                              groups=64, 
-                              reduction=16,
-                              dropout_p=0.2, 
-                              last_stride=last_stride)
-        elif model_name == 'resnet50_ibn_a':
-            self.base = resnet50_ibn_a(last_stride)
-        elif model_name.startswith('dinov2'):
-            # Support for explicitly named variants (dinov2_base, dinov2_large, etc.)
-            dinov2_variant = model_name  # e.g., 'dinov2_vitb14'
+        elif model_name.startswith('gat_dinov2'):
+            dinov2_variant = model_name.replace('gat_', '')  # Remove 'gat_' prefix to get the dinov2_variant
             # Get the corresponding dimension from the MODEL_DIMS dictionary in dinov2.py
             self.in_planes = MODEL_DIMS.get(dinov2_variant, 384)  # Default to 384 if not found
             self.base = DinoVisionTransformer(
@@ -138,7 +55,7 @@ class ExtBaseline(nn.Module):
                 model_variant=dinov2_variant,
                 pretrained=True
             )
-            self.base.freeze_backbone()  # Freeze the backbone
+            # self.base.freeze_backbone()  # Freeze the backbone
 
         if pretrain_choice == 'imagenet':
             self.base.load_param(model_path)
@@ -153,6 +70,8 @@ class ExtBaseline(nn.Module):
             edge_dim=384
         )
 
+        self.fc = nn.Linear(in_features=out_features+self.in_planes, out_features=128)
+
         self.gap = nn.AdaptiveAvgPool2d(1)
         # self.gap = nn.AdaptiveMaxPool2d(1)
         self.num_classes = num_classes
@@ -160,21 +79,32 @@ class ExtBaseline(nn.Module):
         self.neck_feat = neck_feat
 
         if self.neck == 'no':
-            self.classifier = nn.Linear(self.in_planes, self.num_classes)
+            self.classifier = nn.Linear(128, self.num_classes)
             # self.classifier = nn.Linear(self.in_planes, self.num_classes, bias=False)     # new add by luo
             # self.classifier.apply(weights_init_classifier)  # new add by luo
         elif self.neck == 'bnneck':
-            self.bottleneck = nn.BatchNorm1d(self.in_planes)
+            self.bottleneck = nn.BatchNorm1d(128)
             self.bottleneck.bias.requires_grad_(False)  # no shift
-            self.classifier = nn.Linear(self.in_planes, self.num_classes, bias=False)
+            self.classifier = nn.Linear(128, self.num_classes, bias=False)
 
             self.bottleneck.apply(weights_init_kaiming)
             self.classifier.apply(weights_init_classifier)
 
-    def forward(self, x):
+    def forward(self, img, sample):
 
-        global_feat = self.gap(self.base(x))  # (b, 2048, 1, 1)
-        global_feat = global_feat.view(global_feat.shape[0], -1)  # flatten to (bs, 2048)
+        # img branch
+        # torch.Size([64, 3, 252, 126])
+        img_feat = self.gap(self.base(img))  # (b, 2048, 1, 1)
+        # torch.Size([64, 384, 1, 1])
+        img_feat = img_feat.view(img_feat.shape[0], -1)  # flatten to (bs, 2048)
+        # torch.Size([64, 384])
+
+        # graph branch
+
+        graph_feat, attention_weights1, attention_weights2 = self.gat(sample)  # (b, 384, 1, 1)
+
+
+        global_feat = self.fc(torch.cat((img_feat, graph_feat), dim=1))  # (b, 128)
 
         if self.neck == 'no':
             feat = global_feat
@@ -213,7 +143,7 @@ class ExtBaseline(nn.Module):
                 total_count += 1
                 
                 # Try direct key match
-                if i in param_dict:
+                if i in param_dict and i not in ['classifier.weight', 'classifier.bias']:
                     state_dict[i].copy_(param_dict[i])
                     loaded_count += 1
                 # Try removing module prefix (handles DataParallel checkpoints)
@@ -233,9 +163,9 @@ class ExtBaseline(nn.Module):
                     state_dict[i].copy_(param_dict[i[5:]])
                     loaded_count += 1
                 # Try replacing base with backbone (common in some frameworks)
-                elif i.replace('base.', 'backbone.') in param_dict:
-                    state_dict[i].copy_(param_dict[i.replace('base.', 'backbone.')])
-                    loaded_count += 1
+                # elif i.replace('base.', 'backbone.') in param_dict:
+                #     state_dict[i].copy_(param_dict[i.replace('base.', 'backbone.')])
+                #     loaded_count += 1
                 else:
                     print(f'Parameter not found in checkpoint: {i}')
             

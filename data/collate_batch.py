@@ -5,7 +5,6 @@
 """
 
 import torch
-from torchvision.transforms.functional import to_tensor  # Add this import
 
 
 def train_collate_fn(batch):
