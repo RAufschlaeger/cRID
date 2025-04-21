@@ -1,9 +1,18 @@
+# Add the project root directory to the Python path
+import os
+import sys
+
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..'))
+print(f"Project root: {project_root}")
+sys.path.insert(0, project_root)
+
 import time
 
 import matplotlib.pyplot as plt
 import networkx as nx
 import pandas as pd
 from PIL import Image
+from sentence_transformers import SentenceTransformer
 
 from data.src.processing.scene_graph import SceneGraph
 
@@ -48,12 +57,12 @@ if __name__ == "__main__":
     # img_name = "1273_c5s3_026340_00.jpg"
     img_name = "0977_c1s4_062936_02.jpg"
     img_name = "0612_c6s2_031593_01.jpg"
-    img_path = "../../raw/Market-1501-v15.09.15/" + split + "/" + img_name
+    img_path = "./data/raw/market1501/" + split + "/" + img_name
 
     print(f"Image: {img_name}")
 
     #TODO: specify file
-    annotations_path = "../../raw/Market-1501-v15.09.15/" + split + "/annotations.csv"
+    annotations_path = "./data/annotations/Market-1501-v15.09.15/" + split + "/annotations_allenai-Molmo-7B-O-0924.csv"
 
     annotations = pd.read_csv(annotations_path)
 
@@ -73,24 +82,13 @@ if __name__ == "__main__":
         print("Graph: ", graph)
 
         # Generate the scene graph
-        scene_graph = SceneGraph(graph)
+        scene_graph = SceneGraph(graph, SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2'))
 
         # Plot and save the graph
-        plot_graph(scene_graph.G, graph, save_path=img_path + "_graph.png")
+        plot_graph(scene_graph.G, graph, save_path="./graph.png")
     except FileNotFoundError:
         print(f"Image file not found: {img_path}")
     end_time = time.time()
     execution_time = end_time - start_time
     print("Execution time (s): " + str(execution_time))
 
-    # text-based:
-    # df = pd.read_csv("../raw/Market-1501-v15.09.15/bounding_box_train/annotations_old.csv")
-    #
-    # if 'scene_description' not in df.columns:
-    #     print(f"Error: 'scene_description' column not found")
-    #
-    # scene_description = df.loc[1, 'scene_description']
-    # scene_graph = SceneGraph(scene_description)
-    #
-    # # Plot and save the graph
-    # plot_graph(scene_graph.G, scene_description, save_path="example_scene_graph.png")
