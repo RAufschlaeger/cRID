@@ -25,6 +25,8 @@ class GraphTransformer(torch.nn.Module):
         self.layer_norm = LayerNorm(out_channels)
         self.num_classes = num_classes
         self.classifier = nn.Linear(out_channels, self.num_classes)
+
+        self.att = []
         
 
     def forward(self, data):
@@ -48,6 +50,8 @@ class GraphTransformer(torch.nn.Module):
         if self.training:
             cls_score = self.classifier(x2)
             return cls_score, x2  # global feature for triplet loss
+        
+        self.att = [attention_weights1, attention_weights2]
 
         return x2, attention_weights1, attention_weights2  # Return both graph-level representation and attention
         # weights
