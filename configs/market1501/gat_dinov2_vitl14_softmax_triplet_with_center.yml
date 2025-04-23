@@ -1,28 +1,24 @@
-# Experiment-all-tricks-tri_center-256x128-bs16x4-warmup10-erase0_5-labelsmooth_on-laststride1-bnneck_on-triplet_centerloss0_0005
 MODEL:
-  PRETRAIN_CHOICE: 'imagenet'
-  PRETRAIN_PATH: '/home/raufschlaeger/.torch/models/checkpoints/resnet50-0676ba61.pth'
+  PRETRAIN_CHOICE: 'gat_dinov2_vitl14'  # Changed from 'self' and 'imagenet'
+  PRETRAIN_PATH: '/home/raufschlaeger/.cache/torch/hub/checkpoints/dinov2_vitl14_pretrain.pth'
+  NAME: 'gat_dinov2_vitl14'
   METRIC_LOSS_TYPE: 'triplet_center'
   IF_LABELSMOOTH: 'on'
   IF_WITH_CENTER: 'yes'
   DEVICE_ID: ('0')
-  NAME: 'gat'
-
-GRAPH:
-  IN_CHANNELS: 384
-  OUT_FEATURES: 128
+  LAST_STRIDE: 1
 
 INPUT:
-  SIZE_TRAIN: [256, 128]
-  SIZE_TEST: [256, 128]
-  PROB: 0.0 # random horizontal flip
+  SIZE_TRAIN: [252, 126]  # Changed from [256, 128] to be divisible by patch size 14
+  SIZE_TEST: [252, 126]  # Changed from [256, 128] to be divisible by patch size 14
+  PROB: 0.0  # random horizontal flip
   RE_PROB: 0.0 # random erasing
   PADDING: 10
-
+  
 DATASETS:
   NAMES: ('market1501')
   ROOT_DIR: ('./data')
-  TYPES: ('graph',)
+  TYPES: ('image','graph')
 
 DATALOADER:
   SAMPLER: 'softmax_triplet'
@@ -30,8 +26,6 @@ DATALOADER:
   NUM_WORKERS: 8
 
 SOLVER:
-  MARGIN: 0.3
-
   OPTIMIZER_NAME: 'Adam'
   MAX_EPOCHS: 120
   BASE_LR: 0.00035
@@ -59,15 +53,16 @@ SOLVER:
   WARMUP_ITERS: 10
   WARMUP_METHOD: 'linear'
 
-  CHECKPOINT_PERIOD: 40
+  CHECKPOINT_PERIOD: 120
   LOG_PERIOD: 20
-  EVAL_PERIOD: 20
+  EVAL_PERIOD: 40
 
 TEST:
   IMS_PER_BATCH: 128
   RE_RANKING: 'yes'
-  WEIGHT: "./logs/market1501/gat/softmax_triplet_with_center/gat_checkpoint_14880.pt"
+  WEIGHT: "./logs/market1501/gat_dinov2_vitl14/softmax_triplet_with_center/gat_dinov2_vitl14_checkpoint_22320.pt"
   NECK_FEAT: 'after'
   FEAT_NORM: 'yes'
+  
 
-OUTPUT_DIR: "./logs/market1501/gat/softmax_triplet_with_center"
+OUTPUT_DIR: "./logs/market1501/gat_dinov2_vitl14/softmax_triplet_with_center"
