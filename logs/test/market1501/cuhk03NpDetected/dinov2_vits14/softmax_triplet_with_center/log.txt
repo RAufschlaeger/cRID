@@ -1,0 +1,144 @@
+2025-04-20 18:03:59,426 reid_baseline INFO: Using 1 GPUS
+2025-04-20 18:03:59,426 reid_baseline INFO: Namespace(config_file='./configs/market1501/dinov2_vits14_softmax_triplet_with_center.yml', opts=['MODEL.DEVICE_ID', "('0')", 'DATASETS.NAMES', "('cuhk03NpDetected')", 'DATASETS.ROOT_DIR', "('./data')", 'OUTPUT_DIR', "('./logs/test/market1501/cuhk03NpDetected/dinov2_vits14/softmax_triplet_with_center')"])
+2025-04-20 18:03:59,426 reid_baseline INFO: Loaded configuration file ./configs/market1501/dinov2_vits14_softmax_triplet_with_center.yml
+2025-04-20 18:03:59,427 reid_baseline INFO: 
+MODEL:
+  PRETRAIN_CHOICE: 'dinov2_vits14'  # Changed from 'self' and 'imagenet'
+  PRETRAIN_PATH: '/home/raufschlaeger/.cache/torch/hub/checkpoints/dinov2_vits14_pretrain.pth'
+  NAME: 'dinov2_vits14'  # Using dinov2_vits14 variant explicitly set in baseline.py
+  METRIC_LOSS_TYPE: 'triplet_center'
+  IF_LABELSMOOTH: 'on'
+  IF_WITH_CENTER: 'yes'
+  DEVICE_ID: ('0')
+  LAST_STRIDE: 1
+
+INPUT:
+  SIZE_TRAIN: [252, 126]  # Changed from [256, 128] to be divisible by patch size 14
+  SIZE_TEST: [252, 126]  # Changed from [256, 128] to be divisible by patch size 14
+  PROB: 0.0  # random horizontal flip
+  RE_PROB: 0.0 # random erasing
+  PADDING: 10
+
+DATASETS:
+  NAMES: ('market1501')
+  ROOT_DIR: ('./data')
+  TYPES: ('image',)
+
+DATALOADER:
+  SAMPLER: 'softmax_triplet'
+  NUM_INSTANCE: 4
+  NUM_WORKERS: 8
+
+SOLVER:
+  OPTIMIZER_NAME: 'Adam'
+  MAX_EPOCHS: 120
+  BASE_LR: 0.00035
+
+  CLUSTER_MARGIN: 0.3
+
+  CENTER_LR: 0.5
+  CENTER_LOSS_WEIGHT: 0.0005
+
+  RANGE_K: 2
+  RANGE_MARGIN: 0.3
+  RANGE_ALPHA: 0
+  RANGE_BETA: 1
+  RANGE_LOSS_WEIGHT: 1
+
+  BIAS_LR_FACTOR: 1
+  WEIGHT_DECAY: 0.0005
+  WEIGHT_DECAY_BIAS: 0.0005
+  IMS_PER_BATCH: 64
+
+  STEPS: [40, 70, 90]
+  GAMMA: 0.1
+
+  WARMUP_FACTOR: 0.01
+  WARMUP_ITERS: 10
+  WARMUP_METHOD: 'linear'
+
+  CHECKPOINT_PERIOD: 120
+  LOG_PERIOD: 20
+  EVAL_PERIOD: 10
+
+TEST:
+  IMS_PER_BATCH: 128
+  RE_RANKING: 'yes'
+  WEIGHT: "./logs/market1501/dinov2_vits14/softmax_triplet_with_center/dinov2_vits14_checkpoint_22320.pt"
+  NECK_FEAT: 'after'
+  FEAT_NORM: 'yes'
+  
+
+OUTPUT_DIR: "./logs/market1501/dinov2_vits14/softmax_triplet_with_center"
+
+2025-04-20 18:03:59,428 reid_baseline INFO: Running with config:
+DATALOADER:
+  NUM_INSTANCE: 4
+  NUM_WORKERS: 8
+  SAMPLER: softmax_triplet
+DATASETS:
+  NAMES: cuhk03NpDetected
+  ROOT_DIR: ./data
+  TYPES: ('image',)
+GRAPH:
+  IN_CHANNELS: 384
+  OUT_FEATURES: 128
+INPUT:
+  PADDING: 10
+  PIXEL_MEAN: [0.485, 0.456, 0.406]
+  PIXEL_STD: [0.229, 0.224, 0.225]
+  PROB: 0.0
+  RE_PROB: 0.0
+  SIZE_TEST: [252, 126]
+  SIZE_TRAIN: [252, 126]
+MODEL:
+  DEVICE: cuda
+  DEVICE_ID: 0
+  IF_LABELSMOOTH: on
+  IF_WITH_CENTER: yes
+  LAST_STRIDE: 1
+  METRIC_LOSS_TYPE: triplet_center
+  NAME: dinov2_vits14
+  NECK: bnneck
+  PRETRAIN_CHOICE: dinov2_vits14
+  PRETRAIN_PATH: /home/raufschlaeger/.cache/torch/hub/checkpoints/dinov2_vits14_pretrain.pth
+OUTPUT_DIR: ./logs/test/market1501/cuhk03NpDetected/dinov2_vits14/softmax_triplet_with_center
+SOLVER:
+  BASE_LR: 0.00035
+  BIAS_LR_FACTOR: 1
+  CENTER_LOSS_WEIGHT: 0.0005
+  CENTER_LR: 0.5
+  CHECKPOINT_PERIOD: 120
+  CLUSTER_MARGIN: 0.3
+  EVAL_PERIOD: 10
+  GAMMA: 0.1
+  IMS_PER_BATCH: 64
+  LOG_PERIOD: 20
+  MARGIN: 0.3
+  MAX_EPOCHS: 120
+  MOMENTUM: 0.9
+  OPTIMIZER_NAME: Adam
+  RANGE_ALPHA: 0
+  RANGE_BETA: 1
+  RANGE_K: 2
+  RANGE_LOSS_WEIGHT: 1
+  RANGE_MARGIN: 0.3
+  STEPS: (40, 70, 90)
+  WARMUP_FACTOR: 0.01
+  WARMUP_ITERS: 10
+  WARMUP_METHOD: linear
+  WEIGHT_DECAY: 0.0005
+  WEIGHT_DECAY_BIAS: 0.0005
+TEST:
+  FEAT_NORM: yes
+  IMS_PER_BATCH: 128
+  NECK_FEAT: after
+  RE_RANKING: yes
+  WEIGHT: ./logs/market1501/dinov2_vits14/softmax_triplet_with_center/dinov2_vits14_checkpoint_22320.pt
+2025-04-20 18:04:09,352 reid_baseline INFO: Loading model checkpoint from ./logs/market1501/dinov2_vits14/softmax_triplet_with_center/dinov2_vits14_checkpoint_22320.pt
+2025-04-20 18:04:13,914 reid_baseline.inference INFO: Enter inferencing
+2025-04-20 18:04:34,214 reid_baseline.inference INFO: Validation Results
+2025-04-20 18:04:34,215 reid_baseline.inference INFO: mAP: 7.0%
+2025-04-20 18:04:34,216 reid_baseline.inference INFO: CMC curve, Rank-1  :5.6%
+2025-04-20 18:04:34,216 reid_baseline.inference INFO: CMC curve, Rank-5  :10.5%
+2025-04-20 18:04:34,216 reid_baseline.inference INFO: CMC curve, Rank-10 :14.0%
