@@ -18,6 +18,19 @@ def eval_func(distmat, q_pids, g_pids, q_camids, g_camids, max_rank=50):
     indices = np.argsort(distmat, axis=1)
     matches = (g_pids[indices] == q_pids[:, np.newaxis]).astype(np.int32)
 
+    # Print info for first and second query sample
+    for q_idx in [1000, 1001]:
+        print(f"\nQuery sample {q_idx}: pid={q_pids[q_idx]}, camid={q_camids[q_idx]}")
+        sorted_indices = indices[q_idx]
+        print(f"Top 5 closest gallery indices for query {q_idx}: {sorted_indices[:5]+3368}")
+
+        top5_indices = sorted_indices[:5]
+        top5_pids = g_pids[top5_indices]
+        print(f"Top 5 pids for query {q_idx}: {top5_pids}")
+
+        top5_camids = g_camids[top5_indices]
+        print(f"Top 5 camids for query {q_idx}: {top5_camids}")
+
     # compute cmc curve for each query
     all_cmc = []
     all_AP = []
