@@ -1,3 +1,5 @@
+# adapted from: https://github.com/jordan7186/GAtt
+
 import networkx as nx
 import matplotlib.pyplot as plt
 import torch
