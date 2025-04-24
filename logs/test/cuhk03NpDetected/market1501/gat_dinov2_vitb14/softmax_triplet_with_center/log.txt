@@ -1,11 +1,11 @@
-2025-04-24 20:48:01,981 reid_baseline INFO: Using 1 GPUS
-2025-04-24 20:48:01,982 reid_baseline INFO: Namespace(config_file='./configs/cuhk03-np/detected/dinov2_vitb14_softmax_triplet_with_center.yml', opts=['MODEL.DEVICE_ID', "('0')", 'DATASETS.NAMES', "('market1501')", 'DATASETS.ROOT_DIR', "('./data')", 'OUTPUT_DIR', "('./logs/test/cuhk03NpDetected/market1501/dinov2_vitb14/softmax_triplet_with_center')"])
-2025-04-24 20:48:01,982 reid_baseline INFO: Loaded configuration file ./configs/cuhk03-np/detected/dinov2_vitb14_softmax_triplet_with_center.yml
-2025-04-24 20:48:01,982 reid_baseline INFO: 
+2025-04-24 21:19:49,374 reid_baseline INFO: Using 1 GPUS
+2025-04-24 21:19:49,374 reid_baseline INFO: Namespace(config_file='./configs/cuhk03-np/detected/gat_dinov2_vitb14_softmax_triplet_with_center.yml', opts=['MODEL.DEVICE_ID', "('0')", 'DATASETS.NAMES', "('market1501')", 'DATASETS.ROOT_DIR', "('./data')", 'OUTPUT_DIR', "('./logs/test/cuhk03NpDetected/market1501/gat_dinov2_vitb14/softmax_triplet_with_center')"])
+2025-04-24 21:19:49,374 reid_baseline INFO: Loaded configuration file ./configs/cuhk03-np/detected/gat_dinov2_vitb14_softmax_triplet_with_center.yml
+2025-04-24 21:19:49,374 reid_baseline INFO: 
 MODEL:
-  PRETRAIN_CHOICE: 'dinov2_vitb14'  # Changed from 'self' and 'imagenet'
+  PRETRAIN_CHOICE: 'gat_dinov2_vitb14'  # Changed from 'self' and 'imagenet'
   PRETRAIN_PATH: '/home/raufschlaeger/.cache/torch/hub/checkpoints/dinov2_vitb14_pretrain.pth'
-  NAME: 'dinov2_vitb14'  # Using dinov2_vitb14 variant explicitly set in baseline.py
+  NAME: 'gat_dinov2_vitb14'
   METRIC_LOSS_TYPE: 'triplet_center'
   IF_LABELSMOOTH: 'on'
   IF_WITH_CENTER: 'yes'
@@ -18,11 +18,11 @@ INPUT:
   PROB: 0.0  # random horizontal flip
   RE_PROB: 0.0 # random erasing
   PADDING: 10
-
+  
 DATASETS:
   NAMES: ('cuhk03NpDetected')
   ROOT_DIR: ('./data')
-  TYPES: ('image',)
+  TYPES: ('image','graph')
 
 DATALOADER:
   SAMPLER: 'softmax_triplet'
@@ -57,21 +57,21 @@ SOLVER:
   WARMUP_ITERS: 10
   WARMUP_METHOD: 'linear'
 
-  CHECKPOINT_PERIOD: 40
+  CHECKPOINT_PERIOD: 120
   LOG_PERIOD: 20
   EVAL_PERIOD: 40
 
 TEST:
   IMS_PER_BATCH: 128
   RE_RANKING: 'yes'
-  WEIGHT: "./logs/cuhk03-np/detected/dinov2_vitb14/softmax_triplet_with_center/dinov2_vitb14_checkpoint_11280.pt"
+  WEIGHT: "./logs/cuhk03-np/detected/gat_dinov2_vitb14/softmax_triplet_with_center/gat_dinov2_vitb14_checkpoint_11280.pt"
   NECK_FEAT: 'after'
   FEAT_NORM: 'yes'
   
 
-OUTPUT_DIR: "./logs/cuhk03-np/detected/dinov2_vitb14/softmax_triplet_with_center"
+OUTPUT_DIR: "./logs/cuhk03-np/detected/gat_dinov2_vitb14/softmax_triplet_with_center"
 
-2025-04-24 20:48:01,982 reid_baseline INFO: Running with config:
+2025-04-24 21:19:49,374 reid_baseline INFO: Running with config:
 DATALOADER:
   NUM_INSTANCE: 4
   NUM_WORKERS: 8
@@ -79,7 +79,7 @@ DATALOADER:
 DATASETS:
   NAMES: market1501
   ROOT_DIR: ./data
-  TYPES: ('image',)
+  TYPES: ('image', 'graph')
 GRAPH:
   IN_CHANNELS: 384
   OUT_FEATURES: 128
@@ -98,17 +98,17 @@ MODEL:
   IF_WITH_CENTER: yes
   LAST_STRIDE: 1
   METRIC_LOSS_TYPE: triplet_center
-  NAME: dinov2_vitb14
+  NAME: gat_dinov2_vitb14
   NECK: bnneck
-  PRETRAIN_CHOICE: dinov2_vitb14
+  PRETRAIN_CHOICE: gat_dinov2_vitb14
   PRETRAIN_PATH: /home/raufschlaeger/.cache/torch/hub/checkpoints/dinov2_vitb14_pretrain.pth
-OUTPUT_DIR: ./logs/test/cuhk03NpDetected/market1501/dinov2_vitb14/softmax_triplet_with_center
+OUTPUT_DIR: ./logs/test/cuhk03NpDetected/market1501/gat_dinov2_vitb14/softmax_triplet_with_center
 SOLVER:
   BASE_LR: 0.00035
   BIAS_LR_FACTOR: 1
   CENTER_LOSS_WEIGHT: 0.0005
   CENTER_LR: 0.5
-  CHECKPOINT_PERIOD: 40
+  CHECKPOINT_PERIOD: 120
   CLUSTER_MARGIN: 0.3
   EVAL_PERIOD: 40
   GAMMA: 0.1
@@ -134,11 +134,11 @@ TEST:
   IMS_PER_BATCH: 128
   NECK_FEAT: after
   RE_RANKING: yes
-  WEIGHT: ./logs/cuhk03-np/detected/dinov2_vitb14/softmax_triplet_with_center/dinov2_vitb14_checkpoint_11280.pt
-2025-04-24 20:48:04,287 reid_baseline INFO: Loading model checkpoint from ./logs/cuhk03-np/detected/dinov2_vitb14/softmax_triplet_with_center/dinov2_vitb14_checkpoint_11280.pt
-2025-04-24 20:48:07,147 reid_baseline.inference INFO: Enter inferencing
-2025-04-24 20:50:17,155 reid_baseline.inference INFO: Validation Results
-2025-04-24 20:50:17,155 reid_baseline.inference INFO: mAP: 39.6%
-2025-04-24 20:50:17,155 reid_baseline.inference INFO: CMC curve, Rank-1  :57.5%
-2025-04-24 20:50:17,155 reid_baseline.inference INFO: CMC curve, Rank-5  :68.0%
-2025-04-24 20:50:17,155 reid_baseline.inference INFO: CMC curve, Rank-10 :72.6%
+  WEIGHT: ./logs/cuhk03-np/detected/gat_dinov2_vitb14/softmax_triplet_with_center/gat_dinov2_vitb14_checkpoint_11280.pt
+2025-04-24 21:20:31,232 reid_baseline INFO: Loading model checkpoint from ./logs/cuhk03-np/detected/gat_dinov2_vitb14/softmax_triplet_with_center/gat_dinov2_vitb14_checkpoint_11280.pt
+2025-04-24 21:20:33,727 reid_baseline.inference INFO: Enter inferencing
+2025-04-24 21:23:27,973 reid_baseline.inference INFO: Validation Results
+2025-04-24 21:23:27,973 reid_baseline.inference INFO: mAP: 16.3%
+2025-04-24 21:23:27,973 reid_baseline.inference INFO: CMC curve, Rank-1  :25.8%
+2025-04-24 21:23:27,973 reid_baseline.inference INFO: CMC curve, Rank-5  :42.8%
+2025-04-24 21:23:27,973 reid_baseline.inference INFO: CMC curve, Rank-10 :51.7%

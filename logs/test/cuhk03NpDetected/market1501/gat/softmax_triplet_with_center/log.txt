@@ -1,7 +1,7 @@
-2025-04-24 21:12:19,213 reid_baseline INFO: Using 1 GPUS
-2025-04-24 21:12:19,213 reid_baseline INFO: Namespace(config_file='./configs/market1501/gat_softmax_triplet_with_center.yml', opts=['MODEL.DEVICE_ID', "('0')", 'DATASETS.NAMES', "('cuhk03NpDetected')", 'DATASETS.ROOT_DIR', "('./data')", 'OUTPUT_DIR', "('./logs/test/market1501/cuhk03NpDetected/gat/softmax_triplet_with_center')"])
-2025-04-24 21:12:19,213 reid_baseline INFO: Loaded configuration file ./configs/market1501/gat_softmax_triplet_with_center.yml
-2025-04-24 21:12:19,213 reid_baseline INFO: 
+2025-04-24 21:14:16,223 reid_baseline INFO: Using 1 GPUS
+2025-04-24 21:14:16,223 reid_baseline INFO: Namespace(config_file='./configs/cuhk03-np/detected/gat_softmax_triplet_with_center.yml', opts=['MODEL.DEVICE_ID', "('0')", 'DATASETS.NAMES', "('market1501')", 'DATASETS.ROOT_DIR', "('./data')", 'OUTPUT_DIR', "('./logs/test/cuhk03NpDetected/market1501/gat/softmax_triplet_with_center')"])
+2025-04-24 21:14:16,223 reid_baseline INFO: Loaded configuration file ./configs/cuhk03-np/detected/gat_softmax_triplet_with_center.yml
+2025-04-24 21:14:16,223 reid_baseline INFO: 
 # Experiment-all-tricks-tri_center-256x128-bs16x4-warmup10-erase0_5-labelsmooth_on-laststride1-bnneck_on-triplet_centerloss0_0005
 MODEL:
   PRETRAIN_CHOICE: 'imagenet'
@@ -24,7 +24,7 @@ INPUT:
   PADDING: 10
 
 DATASETS:
-  NAMES: ('market1501')
+  NAMES: ('cuhk03NpDetected')
   ROOT_DIR: ('./data')
   TYPES: ('graph',)
 
@@ -65,24 +65,26 @@ SOLVER:
 
   CHECKPOINT_PERIOD: 40
   LOG_PERIOD: 20
-  EVAL_PERIOD: 20
+  EVAL_PERIOD: 5
 
 TEST:
   IMS_PER_BATCH: 128
   RE_RANKING: 'yes'
-  WEIGHT: "./logs/market1501/gat/softmax_triplet_with_center/gat_checkpoint_14880.pt"
+  WEIGHT: "./logs/cuhk03-np/detected/gat/softmax_triplet_with_center/gat_checkpoint_11280.pt"
   NECK_FEAT: 'after'
   FEAT_NORM: 'yes'
 
-OUTPUT_DIR: "./logs/market1501/gat/softmax_triplet_with_center"
+OUTPUT_DIR: "./logs/cuhk03-np/detected/gat/softmax_triplet_with_center"
 
-2025-04-24 21:12:19,213 reid_baseline INFO: Running with config:
+
+
+2025-04-24 21:14:16,223 reid_baseline INFO: Running with config:
 DATALOADER:
   NUM_INSTANCE: 4
   NUM_WORKERS: 8
   SAMPLER: softmax_triplet
 DATASETS:
-  NAMES: cuhk03NpDetected
+  NAMES: market1501
   ROOT_DIR: ./data
   TYPES: ('graph',)
 GRAPH:
@@ -107,7 +109,7 @@ MODEL:
   NECK: bnneck
   PRETRAIN_CHOICE: imagenet
   PRETRAIN_PATH: /home/raufschlaeger/.torch/models/checkpoints/resnet50-0676ba61.pth
-OUTPUT_DIR: ./logs/test/market1501/cuhk03NpDetected/gat/softmax_triplet_with_center
+OUTPUT_DIR: ./logs/test/cuhk03NpDetected/market1501/gat/softmax_triplet_with_center
 SOLVER:
   BASE_LR: 0.00035
   BIAS_LR_FACTOR: 1
@@ -115,7 +117,7 @@ SOLVER:
   CENTER_LR: 0.5
   CHECKPOINT_PERIOD: 40
   CLUSTER_MARGIN: 0.3
-  EVAL_PERIOD: 20
+  EVAL_PERIOD: 5
   GAMMA: 0.1
   IMS_PER_BATCH: 64
   LOG_PERIOD: 20
@@ -139,12 +141,12 @@ TEST:
   IMS_PER_BATCH: 128
   NECK_FEAT: after
   RE_RANKING: yes
-  WEIGHT: ./logs/market1501/gat/softmax_triplet_with_center/gat_checkpoint_14880.pt
-2025-04-24 21:12:22,001 reid_baseline INFO: Loading model checkpoint from ./logs/market1501/gat/softmax_triplet_with_center/gat_checkpoint_14880.pt
-2025-04-24 21:12:22,147 reid_baseline INFO: Checkpoint keys: dict_keys(['model', 'optimizer', 'center_param', 'optimizer_center'])
-2025-04-24 21:12:22,147 reid_baseline.inference INFO: Enter inferencing
-2025-04-24 21:12:42,389 reid_baseline.inference INFO: Validation Results
-2025-04-24 21:12:42,389 reid_baseline.inference INFO: mAP: 12.2%
-2025-04-24 21:12:42,389 reid_baseline.inference INFO: CMC curve, Rank-1  :12.4%
-2025-04-24 21:12:42,389 reid_baseline.inference INFO: CMC curve, Rank-5  :23.0%
-2025-04-24 21:12:42,389 reid_baseline.inference INFO: CMC curve, Rank-10 :29.9%
+  WEIGHT: ./logs/cuhk03-np/detected/gat/softmax_triplet_with_center/gat_checkpoint_11280.pt
+2025-04-24 21:14:22,839 reid_baseline INFO: Loading model checkpoint from ./logs/cuhk03-np/detected/gat/softmax_triplet_with_center/gat_checkpoint_11280.pt
+2025-04-24 21:14:22,999 reid_baseline INFO: Checkpoint keys: dict_keys(['model', 'optimizer', 'center_param', 'optimizer_center'])
+2025-04-24 21:14:22,999 reid_baseline.inference INFO: Enter inferencing
+2025-04-24 21:17:09,496 reid_baseline.inference INFO: Validation Results
+2025-04-24 21:17:09,496 reid_baseline.inference INFO: mAP: 14.4%
+2025-04-24 21:17:09,496 reid_baseline.inference INFO: CMC curve, Rank-1  :25.9%
+2025-04-24 21:17:09,496 reid_baseline.inference INFO: CMC curve, Rank-5  :46.3%
+2025-04-24 21:17:09,497 reid_baseline.inference INFO: CMC curve, Rank-10 :53.9%

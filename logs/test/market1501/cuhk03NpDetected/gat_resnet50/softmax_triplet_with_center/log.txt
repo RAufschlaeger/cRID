@@ -1,7 +1,7 @@
-2025-04-21 06:02:24,522 reid_baseline INFO: Using 1 GPUS
-2025-04-21 06:02:24,522 reid_baseline INFO: Namespace(config_file='./configs/market1501/gat_resnet50_softmax_triplet_with_center.yml', opts=['MODEL.DEVICE_ID', "('0')", 'DATASETS.NAMES', "('cuhk03NpDetected')", 'DATASETS.ROOT_DIR', "('./data')", 'OUTPUT_DIR', "('./logs/test/market1501/cuhk03NpDetected/gat_resnet50/softmax_triplet_with_center')"])
-2025-04-21 06:02:24,522 reid_baseline INFO: Loaded configuration file ./configs/market1501/gat_resnet50_softmax_triplet_with_center.yml
-2025-04-21 06:02:24,522 reid_baseline INFO: 
+2025-04-24 20:18:13,804 reid_baseline INFO: Using 1 GPUS
+2025-04-24 20:18:13,804 reid_baseline INFO: Namespace(config_file='./configs/market1501/gat_resnet50_softmax_triplet_with_center.yml', opts=['MODEL.DEVICE_ID', "('0')", 'DATASETS.NAMES', "('cuhk03NpDetected')", 'DATASETS.ROOT_DIR', "('./data')", 'OUTPUT_DIR', "('./logs/test/market1501/cuhk03NpDetected/gat_resnet50/softmax_triplet_with_center')"])
+2025-04-24 20:18:13,804 reid_baseline INFO: Loaded configuration file ./configs/market1501/gat_resnet50_softmax_triplet_with_center.yml
+2025-04-24 20:18:13,804 reid_baseline INFO: 
 MODEL:
   PRETRAIN_CHOICE: 'gat_resnet50'  # Changed from 'self' and 'imagenet'
   PRETRAIN_PATH: '/home/raufschlaeger/.torch/models/checkpoints/resnet50-0676ba61.pth'
@@ -13,8 +13,8 @@ MODEL:
   LAST_STRIDE: 1
 
 INPUT:
-  SIZE_TRAIN: [252, 126]  # Changed from [256, 128] to be divisible by patch size 14
-  SIZE_TEST: [252, 126]  # Changed from [256, 128] to be divisible by patch size 14
+  SIZE_TRAIN: [256, 128]
+  SIZE_TEST: [256, 128]
   PROB: 0.0 # random horizontal flip
   RE_PROB: 0.0 # random erasing
   PADDING: 10
@@ -68,7 +68,9 @@ TEST:
   NECK_FEAT: 'after'
   FEAT_NORM: 'yes'
  
-2025-04-21 06:02:24,522 reid_baseline INFO: Running with config:
+OUTPUT_DIR: "./logs/market1501/gat_resnet50/softmax_triplet_with_center"
+
+2025-04-24 20:18:13,804 reid_baseline INFO: Running with config:
 DATALOADER:
   NUM_INSTANCE: 4
   NUM_WORKERS: 8
@@ -86,8 +88,8 @@ INPUT:
   PIXEL_STD: [0.229, 0.224, 0.225]
   PROB: 0.0
   RE_PROB: 0.0
-  SIZE_TEST: [252, 126]
-  SIZE_TRAIN: [252, 126]
+  SIZE_TEST: [256, 128]
+  SIZE_TRAIN: [256, 128]
 MODEL:
   DEVICE: cuda
   DEVICE_ID: 0
@@ -132,10 +134,10 @@ TEST:
   NECK_FEAT: after
   RE_RANKING: yes
   WEIGHT: ./logs/market1501/gat_resnet50/softmax_triplet_with_center/gat_resnet50_checkpoint_22320.pt
-2025-04-21 06:02:50,469 reid_baseline INFO: Loading model checkpoint from ./logs/market1501/gat_resnet50/softmax_triplet_with_center/gat_resnet50_checkpoint_22320.pt
-2025-04-21 06:02:51,357 reid_baseline.inference INFO: Enter inferencing
-2025-04-21 06:03:17,414 reid_baseline.inference INFO: Validation Results
-2025-04-21 06:03:17,414 reid_baseline.inference INFO: mAP: 7.9%
-2025-04-21 06:03:17,414 reid_baseline.inference INFO: CMC curve, Rank-1  :7.1%
-2025-04-21 06:03:17,414 reid_baseline.inference INFO: CMC curve, Rank-5  :15.0%
-2025-04-21 06:03:17,414 reid_baseline.inference INFO: CMC curve, Rank-10 :21.7%
+2025-04-24 20:18:40,839 reid_baseline INFO: Loading model checkpoint from ./logs/market1501/gat_resnet50/softmax_triplet_with_center/gat_resnet50_checkpoint_22320.pt
+2025-04-24 20:18:41,050 reid_baseline.inference INFO: Enter inferencing
+2025-04-24 20:19:07,306 reid_baseline.inference INFO: Validation Results
+2025-04-24 20:19:07,306 reid_baseline.inference INFO: mAP: 7.7%
+2025-04-24 20:19:07,306 reid_baseline.inference INFO: CMC curve, Rank-1  :6.9%
+2025-04-24 20:19:07,306 reid_baseline.inference INFO: CMC curve, Rank-5  :14.4%
+2025-04-24 20:19:07,306 reid_baseline.inference INFO: CMC curve, Rank-10 :20.5%

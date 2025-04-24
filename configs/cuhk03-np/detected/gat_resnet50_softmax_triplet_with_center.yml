@@ -63,4 +63,5 @@ TEST:
   WEIGHT: "./logs/cuhk03-np/detected/gat_resnet50/softmax_triplet_with_center/gat_resnet50_checkpoint_11280.pt"
   NECK_FEAT: 'after'
   FEAT_NORM: 'yes'
-  
+
+OUTPUT_DIR: "./logs/cuhk03-np/detected/gat_resnet50/softmax_triplet_with_center"

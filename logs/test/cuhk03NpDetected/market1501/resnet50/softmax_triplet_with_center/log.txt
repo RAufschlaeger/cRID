@@ -1,7 +1,7 @@
-2025-04-24 21:12:19,213 reid_baseline INFO: Using 1 GPUS
-2025-04-24 21:12:19,213 reid_baseline INFO: Namespace(config_file='./configs/market1501/gat_softmax_triplet_with_center.yml', opts=['MODEL.DEVICE_ID', "('0')", 'DATASETS.NAMES', "('cuhk03NpDetected')", 'DATASETS.ROOT_DIR', "('./data')", 'OUTPUT_DIR', "('./logs/test/market1501/cuhk03NpDetected/gat/softmax_triplet_with_center')"])
-2025-04-24 21:12:19,213 reid_baseline INFO: Loaded configuration file ./configs/market1501/gat_softmax_triplet_with_center.yml
-2025-04-24 21:12:19,213 reid_baseline INFO: 
+2025-04-24 20:56:17,988 reid_baseline INFO: Using 1 GPUS
+2025-04-24 20:56:17,988 reid_baseline INFO: Namespace(config_file='./configs/cuhk03-np/detected/resnet50_softmax_triplet_with_center.yml', opts=['MODEL.DEVICE_ID', "('0')", 'DATASETS.NAMES', "('market1501')", 'DATASETS.ROOT_DIR', "('./data')", 'OUTPUT_DIR', "('./logs/test/cuhk03NpDetected/market1501/resnet50/softmax_triplet_with_center')"])
+2025-04-24 20:56:17,988 reid_baseline INFO: Loaded configuration file ./configs/cuhk03-np/detected/resnet50_softmax_triplet_with_center.yml
+2025-04-24 20:56:17,988 reid_baseline INFO: 
 # Experiment-all-tricks-tri_center-256x128-bs16x4-warmup10-erase0_5-labelsmooth_on-laststride1-bnneck_on-triplet_centerloss0_0005
 MODEL:
   PRETRAIN_CHOICE: 'imagenet'
@@ -10,11 +10,10 @@ MODEL:
   IF_LABELSMOOTH: 'on'
   IF_WITH_CENTER: 'yes'
   DEVICE_ID: ('0')
-  NAME: 'gat'
 
 GRAPH:
   IN_CHANNELS: 384
-  OUT_FEATURES: 128
+  OUT_FEATURES: 1
 
 INPUT:
   SIZE_TRAIN: [256, 128]
@@ -24,9 +23,9 @@ INPUT:
   PADDING: 10
 
 DATASETS:
-  NAMES: ('market1501')
+  NAMES: ('cuhk03NpDetected')
   ROOT_DIR: ('./data')
-  TYPES: ('graph',)
+  TYPES: ('image',)
 
 DATALOADER:
   SAMPLER: 'softmax_triplet'
@@ -35,7 +34,7 @@ DATALOADER:
 
 SOLVER:
   MARGIN: 0.3
-
+  
   OPTIMIZER_NAME: 'Adam'
   MAX_EPOCHS: 120
   BASE_LR: 0.00035
@@ -65,29 +64,31 @@ SOLVER:
 
   CHECKPOINT_PERIOD: 40
   LOG_PERIOD: 20
-  EVAL_PERIOD: 20
+  EVAL_PERIOD: 10
 
 TEST:
   IMS_PER_BATCH: 128
   RE_RANKING: 'yes'
-  WEIGHT: "./logs/market1501/gat/softmax_triplet_with_center/gat_checkpoint_14880.pt"
+  WEIGHT: "./logs/cuhk03-np/detected/resnet50/softmax_triplet_with_center/resnet50_checkpoint_11280.pt"
   NECK_FEAT: 'after'
   FEAT_NORM: 'yes'
 
-OUTPUT_DIR: "./logs/market1501/gat/softmax_triplet_with_center"
+OUTPUT_DIR: "./logs/cuhk03-np/detected/resnet50/softmax_triplet_with_center"
 
-2025-04-24 21:12:19,213 reid_baseline INFO: Running with config:
+
+
+2025-04-24 20:56:17,989 reid_baseline INFO: Running with config:
 DATALOADER:
   NUM_INSTANCE: 4
   NUM_WORKERS: 8
   SAMPLER: softmax_triplet
 DATASETS:
-  NAMES: cuhk03NpDetected
+  NAMES: market1501
   ROOT_DIR: ./data
-  TYPES: ('graph',)
+  TYPES: ('image',)
 GRAPH:
   IN_CHANNELS: 384
-  OUT_FEATURES: 128
+  OUT_FEATURES: 1
 INPUT:
   PADDING: 10
   PIXEL_MEAN: [0.485, 0.456, 0.406]
@@ -103,11 +104,11 @@ MODEL:
   IF_WITH_CENTER: yes
   LAST_STRIDE: 1
   METRIC_LOSS_TYPE: triplet_center
-  NAME: gat
+  NAME: resnet50
   NECK: bnneck
   PRETRAIN_CHOICE: imagenet
   PRETRAIN_PATH: /home/raufschlaeger/.torch/models/checkpoints/resnet50-0676ba61.pth
-OUTPUT_DIR: ./logs/test/market1501/cuhk03NpDetected/gat/softmax_triplet_with_center
+OUTPUT_DIR: ./logs/test/cuhk03NpDetected/market1501/resnet50/softmax_triplet_with_center
 SOLVER:
   BASE_LR: 0.00035
   BIAS_LR_FACTOR: 1
@@ -115,7 +116,7 @@ SOLVER:
   CENTER_LR: 0.5
   CHECKPOINT_PERIOD: 40
   CLUSTER_MARGIN: 0.3
-  EVAL_PERIOD: 20
+  EVAL_PERIOD: 10
   GAMMA: 0.1
   IMS_PER_BATCH: 64
   LOG_PERIOD: 20
@@ -139,12 +140,11 @@ TEST:
   IMS_PER_BATCH: 128
   NECK_FEAT: after
   RE_RANKING: yes
-  WEIGHT: ./logs/market1501/gat/softmax_triplet_with_center/gat_checkpoint_14880.pt
-2025-04-24 21:12:22,001 reid_baseline INFO: Loading model checkpoint from ./logs/market1501/gat/softmax_triplet_with_center/gat_checkpoint_14880.pt
-2025-04-24 21:12:22,147 reid_baseline INFO: Checkpoint keys: dict_keys(['model', 'optimizer', 'center_param', 'optimizer_center'])
-2025-04-24 21:12:22,147 reid_baseline.inference INFO: Enter inferencing
-2025-04-24 21:12:42,389 reid_baseline.inference INFO: Validation Results
-2025-04-24 21:12:42,389 reid_baseline.inference INFO: mAP: 12.2%
-2025-04-24 21:12:42,389 reid_baseline.inference INFO: CMC curve, Rank-1  :12.4%
-2025-04-24 21:12:42,389 reid_baseline.inference INFO: CMC curve, Rank-5  :23.0%
-2025-04-24 21:12:42,389 reid_baseline.inference INFO: CMC curve, Rank-10 :29.9%
+  WEIGHT: ./logs/cuhk03-np/detected/resnet50/softmax_triplet_with_center/resnet50_checkpoint_11280.pt
+2025-04-24 20:56:18,442 reid_baseline INFO: Loading model checkpoint from ./logs/cuhk03-np/detected/resnet50/softmax_triplet_with_center/resnet50_checkpoint_11280.pt
+2025-04-24 20:56:18,652 reid_baseline.inference INFO: Enter inferencing
+2025-04-24 20:58:13,763 reid_baseline.inference INFO: Validation Results
+2025-04-24 20:58:13,763 reid_baseline.inference INFO: mAP: 35.9%
+2025-04-24 20:58:13,763 reid_baseline.inference INFO: CMC curve, Rank-1  :54.8%
+2025-04-24 20:58:13,763 reid_baseline.inference INFO: CMC curve, Rank-5  :65.0%
+2025-04-24 20:58:13,763 reid_baseline.inference INFO: CMC curve, Rank-10 :69.8%
