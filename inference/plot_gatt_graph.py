@@ -1,3 +1,8 @@
+# encoding: utf-8
+"""
+@author:  raufschlaeger
+"""
+
 import os
 import sys
 from datetime import datetime
@@ -7,7 +12,7 @@ project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, project_root)
 
 from data.src.models.molmo7b import Molmo
-from plot_gat_attention_in_inference import extract_node_strings, visualize_gatt
+from inference.utils import extract_node_strings, visualize_gatt
 
 import os
 import sys
@@ -17,17 +22,12 @@ import shutil
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, project_root)
 
-import csv
 import numpy as np
 
 import networkx as nx
 import torch
-import mlflow
 import pandas as pd
 from matplotlib import pyplot as plt
-from matplotlib.cm import ScalarMappable
-from matplotlib.colors import Normalize
-from sentence_transformers import SentenceTransformer
 
 from config import cfg
 from data.src.processing.scene_graph import SceneGraph

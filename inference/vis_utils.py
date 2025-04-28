@@ -375,14 +375,6 @@ def draw_local_comp_graph_with_attribution_scores_BAShapes(
         min_target_margin=15,
         min_source_margin=15,
     )
-    # draws gatt scores
-    # nx.draw_networkx_edge_labels(
-    #     G,
-    #     pos=pos,
-    #     edge_labels=edge_labels,  # Add edge labels for attribution scores
-    #     font_size=15,
-    #     font_color="black",  # Set text color for edge labels
-    # )
     nx.draw_networkx_nodes(
         G,
         pos=pos,
@@ -402,10 +394,6 @@ def draw_local_comp_graph_with_attribution_scores_BAShapes(
         linewidths=2,
         label={node: node for node in subgraph_nodes},
     )
-    # plt.show()
-    # output_path = os.path.join(os.getcwd(), 'inference/local_comp_graph.png')
-    # print(output_path)
-    # plt.savefig(output_path, dpi=300, bbox_inches='tight', pad_inches=1.0)  # Add padding to avoid cutting text
 
     # Save the plot to a file
     if base_name is None:
