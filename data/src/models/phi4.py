@@ -1,3 +1,8 @@
+# encoding: utf-8
+"""
+@author:  raufschlaeger
+"""
+
 from ollama import chat, ChatResponse
 
 

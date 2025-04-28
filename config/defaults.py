@@ -1,3 +1,5 @@
+# adapted from [https://github.com/michuanhaohao/reid-strong-baseline](https://github.com/michuanhaohao/reid-strong-baseline)
+
 from yacs.config import CfgNode as CN
 
 # -----------------------------------------------------------------------------

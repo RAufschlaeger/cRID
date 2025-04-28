@@ -1,8 +1,9 @@
 # encoding: utf-8
 """
-@author:  liaoxingyu
-@contact: sherlockliao01@gmail.com
+@author:  raufschlaeger
 """
+
+# adapted from baseline.py in [https://github.com/michuanhaohao/reid-strong-baseline](https://github.com/michuanhaohao/reid-strong-baseline)
 
 import torch
 from torch import nn

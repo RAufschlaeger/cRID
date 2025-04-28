@@ -1,3 +1,8 @@
+# encoding: utf-8
+"""
+@author:  raufschlaeger
+"""
+
 import torch
 from torch_geometric.nn import GATv2Conv, global_max_pool
 import torch.nn.functional as F

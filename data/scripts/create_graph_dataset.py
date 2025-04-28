@@ -1,3 +1,9 @@
+# encoding: utf-8
+"""
+@author:  raufschlaeger
+"""
+
+
 import os
 import sys
 

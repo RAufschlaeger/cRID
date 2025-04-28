@@ -1,3 +1,8 @@
+# encoding: utf-8
+"""
+@author:  raufschlaeger
+"""
+
 # Add the project root directory to the Python path
 import os
 import sys

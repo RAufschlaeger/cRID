@@ -1,3 +1,8 @@
+# encoding: utf-8
+"""
+@author:  raufschlaeger
+"""
+
 import torch
 from transformers import AutoModelForCausalLM, AutoProcessor, GenerationConfig, BitsAndBytesConfig
 from ollama import chat, ChatResponse

@@ -1,3 +1,8 @@
+# encoding: utf-8
+"""
+@author:  raufschlaeger
+"""
+
 import pandas as pd
 import torch
 import torch_geometric.data

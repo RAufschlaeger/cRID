@@ -309,8 +309,8 @@ def draw_local_comp_graph_with_attribution_scores_BAShapes(
         for idx in subgraph_nodes:
             if idx < len(node_strings):
                 label = f"{idx}: {node_strings[idx]}"
-                # Split label into two lines if longer than 15 chars
-                if len(label) > 15:
+                # Split label into two lines if longer than 100 chars
+                if len(label) > 100:
                     # Try to split at the first space after 12 chars, else just split at 15
                     split_pos = label.find(' ', 12)
                     if split_pos == -1 or split_pos > 30:
@@ -325,24 +325,35 @@ def draw_local_comp_graph_with_attribution_scores_BAShapes(
     # Draw the graph with subgraph_nodes as node labels
     # Also highlight the target node with a different color
     plt.figure(figsize=(8, 8), dpi=300)
-    pos = nx.spring_layout(G, seed=0)
-    node_size = 1200
+    # Increase k and iterations to spread nodes further apart and reduce label overlap
+    pos = nx.spring_layout(G, seed=0, k=1.5, iterations=200)
+    node_size = 4000
     arc_rad = 0.05
     nx.draw(
         G,
         pos=pos,
-        node_color="#D8D4F2",
+        node_color="#F3F3FD",  # lighter color
         node_size=node_size,
         width=1,
-        edgecolors="black",
+        edgecolors="gray",
         linewidths=2,
         edge_color="white",
         arrowstyle="-|>",
         connectionstyle=f"arc3, rad = {arc_rad}",
-        labels=node_labels,  # Use new node_labels
-        with_labels=True,
+        labels=None,  # Draw labels separately to control bbox
+        with_labels=False,
         font_weight="normal",
-        font_size=20
+        font_size=15
+    )
+
+    # Draw node labels with a white bounding box to improve readability and reduce overlap
+    nx.draw_networkx_labels(
+        G,
+        pos=pos,
+        labels=node_labels,
+        font_size=15,
+        font_weight="normal",
+        bbox=dict(facecolor='white', edgecolor='none', boxstyle='round,pad=0.2')
     )
 
     edge_color = [att_matrix[edge[1], edge[0]].item() for edge in subgraph_edges_tup]
@@ -379,15 +390,15 @@ def draw_local_comp_graph_with_attribution_scores_BAShapes(
         node_color="#5152d0",
         node_size=node_size,
         linewidths=2,
-        edgecolors="black",
+        edgecolors="gray",
     )
     nx.draw_networkx_nodes(
         G,
         pos=pos,
         nodelist=[target_idx],
-        node_color="#FF8C00",
+        node_color="#FFD9B3",  # lighter orange
         node_size=node_size,
-        edgecolors="black",
+        edgecolors="gray",
         linewidths=2,
         label={node: node for node in subgraph_nodes},
     )
@@ -402,4 +413,4 @@ def draw_local_comp_graph_with_attribution_scores_BAShapes(
     else:
         plot_filename = "./inference/gatt_graphs/" + base_name
 
-    plt.savefig(plot_filename, dpi=300, pad_inches=1.0)  # Add padding to avoid cutting text
+    plt.savefig(plot_filename, dpi=400, pad_inches=1.0)  # Add padding to avoid cutting text

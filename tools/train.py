@@ -1,3 +1,5 @@
+# adapted from [https://github.com/michuanhaohao/reid-strong-baseline](https://github.com/michuanhaohao/reid-strong-baseline)
+
 # encoding: utf-8
 """
 @author:  sherlock
@@ -163,12 +165,22 @@ def main():
         # args.config_file = './configs/cuhk03-np/detected/gat_dinov2_vits14_softmax_triplet_with_center.yml'
         # args.config_file = './configs/cuhk03-np/detected/gat_resnet50_softmax_triplet_with_center.yml'
 
-        for file in ['./configs/market1501/gat_dinov2_vitb14_softmax_triplet_with_center.yml', 
-                     './configs/market1501/gat_resnet50_softmax_triplet_with_center.yml',
-                     './configs/market1501/gat_dinov2_vits14_softmax_triplet_with_center.yml',
-                     './configs/cuhk03-np/detected/gat_dinov2_vitb14_softmax_triplet_with_center.yml'
-                     './configs/cuhk03-np/detected/gat_dinov2_vits14_softmax_triplet_with_center.yml',
-                     './configs/cuhk03-np/detected/gat_resnet50_softmax_triplet_with_center.yml']:
+        for file in [ #31 #33
+                    # './configs/market1501/gat_dinov2_vitb14_softmax_triplet_with_center.yml', 
+                    #  './configs/market1501/gat_resnet50_softmax_triplet_with_center.yml',
+                    #  './configs/market1501/gat_dinov2_vits14_softmax_triplet_with_center.yml',
+                    #  './configs/cuhk03-np/detected/gat_dinov2_vitb14_softmax_triplet_with_center.yml',
+                    #  './configs/cuhk03-np/detected/gat_dinov2_vits14_softmax_triplet_with_center.yml',
+                    #  './configs/cuhk03-np/detected/gat_resnet50_softmax_triplet_with_center.yml',
+                    #   './configs/cuhk03-np/detected/gat_dinov2_vitl14_softmax_triplet_with_center.yml',
+                    # 
+                        # './configs/market1501/gat_softmax_triplet_with_center.yml',
+                        # './configs/market1501/dinov2_vitl14_softmax_triplet_with_center.yml',
+                        # './configs/cuhk03-np/detected/dinov2_vitl14_softmax_triplet_with_center.yml',
+                        # './configs/market1501/gat_dinov2_vitl14_softmax_triplet_with_center.yml'
+                        # './configs/market1501/gat_resnet50_softmax_triplet_with_center.yml',
+                        './configs/cuhk03-np/detected/gat_resnet50_softmax_triplet_with_center.yml'
+                     ]:
             args.config_file = file
 
             # Ensure DATASETS.TYPES is always a tuple

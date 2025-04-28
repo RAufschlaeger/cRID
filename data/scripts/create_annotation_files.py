@@ -1,6 +1,10 @@
+# encoding: utf-8
+"""
+@author:  raufschlaeger
+"""
+
 import os
 import csv
-
 
 def parse_filename_market1501(filename):
     parts = filename.split('_')

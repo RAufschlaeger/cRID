@@ -1,3 +1,5 @@
+# adapted from [https://github.com/michuanhaohao/reid-strong-baseline](https://github.com/michuanhaohao/reid-strong-baseline)
+
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # @Time    : 2019/1/17 15:00
