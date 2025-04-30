@@ -327,14 +327,36 @@ def draw_local_comp_graph_with_attribution_scores_BAShapes(
     plt.figure(figsize=(8, 8), dpi=300)
     # Increase k and iterations to spread nodes further apart and reduce label overlap
     pos = nx.spring_layout(G, seed=0, k=1.5, iterations=200)
-    node_size = 4000
+    node_size = 1000
     arc_rad = 0.05
+
+
+    nx.draw_networkx_nodes(
+        G,
+        pos=pos,
+        nodelist=ground_truth_nodes,
+        node_color="#5152d0",
+        node_size=node_size,
+        linewidths=2,
+        edgecolors="gray",
+    )
+    nx.draw_networkx_nodes(
+        G,
+        pos=pos,
+        nodelist=[target_idx],
+        node_color="#FFD9B3",  # lighter orange
+        node_size=node_size,
+        edgecolors="gray",
+        linewidths=2,
+        label={node: node for node in subgraph_nodes},
+    )
+
     nx.draw(
         G,
         pos=pos,
         node_color="#F3F3FD",  # lighter color
         node_size=node_size,
-        width=1,
+        width=3,
         edgecolors="gray",
         linewidths=2,
         edge_color="white",
@@ -374,25 +396,6 @@ def draw_local_comp_graph_with_attribution_scores_BAShapes(
         connectionstyle=f"arc3, rad = {arc_rad}",
         min_target_margin=15,
         min_source_margin=15,
-    )
-    nx.draw_networkx_nodes(
-        G,
-        pos=pos,
-        nodelist=ground_truth_nodes,
-        node_color="#5152d0",
-        node_size=node_size,
-        linewidths=2,
-        edgecolors="gray",
-    )
-    nx.draw_networkx_nodes(
-        G,
-        pos=pos,
-        nodelist=[target_idx],
-        node_color="#FFD9B3",  # lighter orange
-        node_size=node_size,
-        edgecolors="gray",
-        linewidths=2,
-        label={node: node for node in subgraph_nodes},
     )
 
     # Save the plot to a file
