@@ -124,3 +124,5 @@ logs/**/*.pt
 logs/**/*.pth
 logs/market1501
 logs/cuhk03-np
+
+inference/test_query
