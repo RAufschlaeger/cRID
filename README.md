@@ -109,7 +109,8 @@ This repository is organized for modularity and extensibility. Below is an overv
 
 - **`data/datasets/`**: Contains dataset loader classes for various benchmarks (e.g., Market1501, CUHK03, CUHK03-np, MSMT17, VeRi, DukeMTMC-reID). Each file implements a dataset-specific loader inheriting from a common base. Currently, we only use Market1501 and CUHK03-np/detected.
 - **`data/build.py`**: Main entry point for constructing PyTorch data loaders for training and evaluation, supporting both image and graph modalities.
-- **`data/scripts/`**: Utility scripts for dataset preprocessing, annotation file creation, and conversion between formats (e.g., `create_annotation_files.py`, `create_graph_dataset.py`, `create_image_dataset.py`, `write_graphs.py`).
+- **`data/scripts/`**: Utility scripts for dataset preprocessing, annotation file creation, and conversion between formats (e.g., `create_annotation_files.py`,
+`write_graphs.py`, `create_graph_dataset.py`, `create_image_dataset.py`).
 - **`data/src/`**: Custom code for advanced data processing and modeling.
   - **`data/src/data/graph_dataset.py`**: Defines a PyTorch dataset for scene graphs, including error handling and embedding generation.
   - **`data/src/processing/scene_graph.py`**: Scene graph parsing, cleaning, and conversion utilities.
