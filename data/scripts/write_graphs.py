@@ -16,8 +16,9 @@ import torch
 from datasets import tqdm
 import logging
 from data.src.models.molmo7b import Molmo
-# from data.src.models.llama32_13b import Llama
-        
+from data.src.models.internvl3_8b import InternVL3
+
+
 def setup_logging(split: str):
     # Create a timestamp for unique filename
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -89,6 +90,8 @@ def main(model_name: str, dataset: str, split: str, model_safe_name: str):
 
         if "Molmo-7B-O-0924" in model_safe_name:
             extractor = Molmo()
+        elif "InternVL3" in model_safe_name:
+            extractor = InternVL3()
         # elif "llama32vision" in model_safe_name:
         #     extractor = Llama()
         else:
@@ -200,7 +203,7 @@ def main(model_name: str, dataset: str, split: str, model_safe_name: str):
 
 # s1-s6 one after another
 if __name__ == '__main__':
-    for MODEL_NAME in ['allenai/Molmo-7B-O-0924']:
+    for MODEL_NAME in ['OpenGVLab/InternVL3-8B']:
         model_safe_name = MODEL_NAME.replace("/", "-")
         print(f"Processing model: {MODEL_NAME}")    
         for split in ["query", "bounding_box_test", "bounding_box_train"]:
