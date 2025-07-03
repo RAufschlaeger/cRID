@@ -1,5 +1,20 @@
 # Experiments on Person Re-ID using Cross-Modal Intelligence
 
+## Paper
+
+[https://arxiv.org/abs/2507.01504](https://arxiv.org/abs/2507.01504)
+
+```bibtex
+@misc{aufschläger2025followingcluesexperimentsperson,
+      title={Following the Clues: Experiments on Person Re-ID using Cross-Modal Intelligence}, 
+      author={Robert Aufschläger and Youssef Shoeb and Azarm Nowzad and Michael Heigl and Fabian Bally and Martin Schramm},
+      year={2025},
+      eprint={2507.01504},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={[https://arxiv.org/abs/2507.01504](https://arxiv.org/abs/2507.01504)}, 
+}
+
 ## Copyright info
 
 This work is mostly based on the repository [https://github.com/michuanhaohao/reid-strong-baseline](https://github.com/michuanhaohao/reid-strong-baseline) (README: [Bag of Tricks and A Strong ReID Baseline](#bag-of-tricks-and-a-strong-reid-baseline), License: LICENCE (REID-STRONG-BASELINE) copy.md (MIT)). We are grateful using their work and aware to stand on the shoulders of giants.
