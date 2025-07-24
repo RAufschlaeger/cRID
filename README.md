@@ -1,3 +1,7 @@
+<a target="_blank" href="https://arxiv.org/abs/2507.01504">
+  <img src="https://img.shields.io/badge/arXiv-2507.01504-red.svg" alt="arXiv Badge"/>
+</a>
+
 # Experiments on Person Re-ID using Cross-Modal Intelligence
 
 ## Paper
