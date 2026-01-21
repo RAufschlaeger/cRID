@@ -20,6 +20,10 @@
 }
 ```
 
+## Funding
+
+The development of this code was funded by the German Federal Ministry for Economic Affairs and Energy within the project “just better DATA - Effiziente und hochgenaue Datenerzeugung für KI-Anwendungen im Bereich autonomes Fahren".
+
 ## Copyright info
 
 This work is mostly based on the repository [https://github.com/michuanhaohao/reid-strong-baseline](https://github.com/michuanhaohao/reid-strong-baseline) (README: [Bag of Tricks and A Strong ReID Baseline](#bag-of-tricks-and-a-strong-reid-baseline), License: LICENCE (REID-STRONG-BASELINE) copy.md (MIT)). We are grateful using their work and aware to stand on the shoulders of giants.
