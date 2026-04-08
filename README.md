@@ -7,6 +7,7 @@
 ## Paper
 
 [https://arxiv.org/abs/2507.01504](https://arxiv.org/abs/2507.01504)
+[https://ieeexplore.ieee.org/document/11423064](https://ieeexplore.ieee.org/document/11423064)
 
 ```bibtex
 @INPROCEEDINGS{11423064,
