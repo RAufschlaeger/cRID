@@ -1,5 +1,7 @@
 <a target="_blank" href="https://arxiv.org/abs/2507.01504">
   <img src="https://img.shields.io/badge/arXiv-2507.01504-red.svg" alt="arXiv Badge"/>
+</a><a target="_blank" href="https://ieeexplore.ieee.org/document/11423064">
+<img src="https://img.shields.io/badge/IEEE_Xplore-11423064-00629B.svg" alt="IEEE Badge"/>
 </a>
 
 # Experiments on Person Re-ID using Cross-Modal Intelligence
