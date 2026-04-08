@@ -9,15 +9,16 @@
 [https://arxiv.org/abs/2507.01504](https://arxiv.org/abs/2507.01504)
 
 ```bibtex
-@misc{aufschläger2025followingcluesexperimentsperson,
-      title={Following the Clues: Experiments on Person Re-ID using Cross-Modal Intelligence}, 
-      author={Robert Aufschläger and Youssef Shoeb and Azarm Nowzad and Michael Heigl and Fabian Bally and Martin Schramm},
-      year={2025},
-      eprint={2507.01504},
-      archivePrefix={arXiv},
-      primaryClass={cs.CV},
-      url={[https://arxiv.org/abs/2507.01504](https://arxiv.org/abs/2507.01504)}, 
-}
+@INPROCEEDINGS{11423064,
+  author={Aufschläger, Robert and Shoeb, Youssef and Nowzad, Azarm and Heigl, Michael and Bally, Fabian and Schramm, Martin},
+  booktitle={2025 IEEE 28th International Conference on Intelligent Transportation Systems (ITSC)}, 
+  title={Following the Clues: Experiments on Person Re-ID Using Cross-Modal Intelligence}, 
+  year={2025},
+  volume={},
+  number={},
+  pages={225-232},
+  keywords={Representation learning;Data privacy;Systematics;Pedestrians;Feature extraction;Graph neural networks;Recording;Open data;Intelligent transportation systems;Identification of persons;data privacy;graph neural networks;identification of persons;open data},
+  doi={10.1109/ITSC60802.2025.11423064}}
 ```
 
 ## Funding
